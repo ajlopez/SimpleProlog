@@ -14,3 +14,8 @@ assert.ok(result);
 assert.equal(result.current(), 2);
 assert.equal(result.get(0), null);
 assert.equal(result.get(1), null);
+
+// strict null
+
+assert.strictEqual(result.get(0), null);
+assert.strictEqual(result.get(1), null);
