@@ -14,4 +14,6 @@ assert.ok(result);
 assert.equal(result.name, 'X');
 assert.equal(result.asString(), 'X');
 assert.equal(result.variable, true);
+assert.equal(result.offset, undefined);
+
 
