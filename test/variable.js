@@ -13,4 +13,5 @@ var result = variable('X');
 assert.ok(result);
 assert.equal(result.name, 'X');
 assert.equal(result.asString(), 'X');
+assert.equal(result.variable, true);
 
