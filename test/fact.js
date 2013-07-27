@@ -26,3 +26,14 @@ assert.equal(result.functor.asString(), 'a');
 assert.equal(result.arity, 3);
 assert.equal(result.asString(), 'a(b, c, d)');
 
+// fact with only functor
+
+var result = fact(atom('a'));
+assert.ok(result);
+assert.ok(result.functor);
+assert.equal(result.functor.asString(), 'a');
+assert.equal(result.arity, 0);
+assert.equal(result.asString(), 'a()');
+
+
+
