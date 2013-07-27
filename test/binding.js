@@ -36,3 +36,11 @@ assert.throws(
     Error
 );
 
+// set and get
+
+result.set(0, 1);
+result.set(1, "foo");
+
+assert.equal(result.get(0), 1);
+assert.equal(result.get(1), "foo");
+
