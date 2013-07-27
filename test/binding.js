@@ -19,3 +19,20 @@ assert.equal(result.get(1), null);
 
 assert.strictEqual(result.get(0), null);
 assert.strictEqual(result.get(1), null);
+
+// raise if invalid offset
+
+assert.throws(
+    function() {
+        result.get(-1);
+    },
+    Error
+);
+
+assert.throws(
+    function() {
+        result.get(2);
+    },
+    Error
+);
+
