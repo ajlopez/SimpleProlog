@@ -44,3 +44,18 @@ result.set(1, "foo");
 assert.equal(result.get(0), 1);
 assert.equal(result.get(1), "foo");
 
+// raise if invalid offset in set
+
+assert.throws(
+    function() {
+        result.set(-1, "foo");
+    },
+    Error
+);
+
+assert.throws(
+    function() {
+        result.set(2, "bar");
+    },
+    Error
+);
