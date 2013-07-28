@@ -79,3 +79,19 @@ assert.equal(result.current(), 3);
 assert.equal(result.get(0), 1);
 assert.equal(result.get(1), "foo");
 assert.strictEqual(result.get(2), null);
+
+// raise if reset receives invalid argument
+
+assert.throws(
+    function() {
+        result.reset(-1);
+    },
+    Error
+);
+
+assert.throws(
+    function() {
+        result.reset(4);
+    },
+    Error
+);
