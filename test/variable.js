@@ -27,7 +27,7 @@ assert.equal(result.asString(), 'X');
 assert.equal(result.variable, true);
 assert.equal(result.offset, 10);
 
-// unbound variable match number
+// unbound variable match atom
 
 var varx = variable('X', 0);
 assert.ok(varx);
@@ -40,3 +40,11 @@ var result = bind.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
 
+// bound variable does not match other atom
+
+var atomy = atom('y');
+assert.equal(varx.match(atomy, bind), false);
+
+var result = bind.get(0);
+assert.ok(result);
+assert.strictEqual(result, atomx);
