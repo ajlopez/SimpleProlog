@@ -16,4 +16,12 @@ assert.equal(result.asString(), 'X');
 assert.equal(result.variable, true);
 assert.equal(result.offset, undefined);
 
+// create variable with offset
+
+var result = variable('X', 10);
+assert.ok(result);
+assert.equal(result.name, 'X');
+assert.equal(result.asString(), 'X');
+assert.equal(result.variable, true);
+assert.equal(result.offset, 10);
 
