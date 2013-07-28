@@ -35,5 +35,12 @@ assert.equal(result.functor.asString(), 'a');
 assert.equal(result.arity, 0);
 assert.equal(result.asString(), 'a()');
 
+// fact does not match integer, string, real, atom
+
+var fact1 = fact(atom('a'), [1, atom('b')]);
+assert.equal(fact1.match(1), false);
+assert.equal(fact1.match("foo"), false);
+assert.equal(fact1.match(1.2), false);
+assert.equal(fact1.match(atom('a')), false);
 
 
