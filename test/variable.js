@@ -48,3 +48,12 @@ assert.equal(varx.match(atomy, bind), false);
 var result = bind.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
+
+// bound variable match atom with same name
+
+var atomx2 = atom('x');
+assert.equal(varx.match(atomx2, bind), true);
+
+var result = bind.get(0);
+assert.ok(result);
+assert.strictEqual(result, atomx);
