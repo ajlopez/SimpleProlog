@@ -43,4 +43,22 @@ assert.equal(fact1.match("foo"), false);
 assert.equal(fact1.match(1.2), false);
 assert.equal(fact1.match(atom('a')), false);
 
+// fact match similar fact
+
+var fact1b = fact(atom('a'), [1, atom('b')]);
+assert.equal(fact1.match(fact1b), true);
+assert.equal(fact1b.match(fact1), true);
+
+// fact does not match not similar fact
+
+var fact2 = fact(atom('a'), [2, atom('b')]);
+var fact3 = fact(atom('a'), [1, atom('c')]);
+var fact4 = fact(atom('c'), [1, atom('b')]);
+var fact5 = fact(atom('a'), [1, atom('b'), 3]);
+
+assert.equal(fact1.match(fact2), false);
+assert.equal(fact1.match(fact3), false);
+assert.equal(fact1.match(fact4), false);
+assert.equal(fact1.match(fact5), false);
+
 
