@@ -57,3 +57,14 @@ assert.equal(varx.match(atomx2, bind), true);
 var result = bind.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
+
+// unbound variables match
+
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+var bind = binding(2);
+assert.equal(varx.match(vary, bind), true);
+assert.strictEqual(bind.get(1), varx);
+assert.equal(bind.get(0), null);
+
+
