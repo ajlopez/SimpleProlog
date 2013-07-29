@@ -67,4 +67,13 @@ assert.equal(varx.match(vary, bind), true);
 assert.strictEqual(bind.get(1), varx);
 assert.equal(bind.get(0), null);
 
+// unbound variables match, inverse order
+
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+var bind = binding(2);
+assert.equal(vary.match(varx, bind), true);
+assert.strictEqual(bind.get(1), varx);
+assert.equal(bind.get(0), null);
+
 
