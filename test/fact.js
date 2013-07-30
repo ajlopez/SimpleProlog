@@ -78,3 +78,13 @@ assert.ok(fact1.variables);
 assert.equal(fact1.variables.length, 1);
 assert.equal(fact1.variables[0], 'X');
 
+// fact with two variable
+
+var fact1 = fact(atom('a'), [variable('Y'), variable('X')]);
+assert.equal(fact1.nvariables, 2);
+assert.equal(fact1.nanonymous, 0);
+assert.ok(fact1.variables);
+assert.equal(fact1.variables.length, 2);
+assert.equal(fact1.variables[0], 'Y');
+assert.equal(fact1.variables[1], 'X');
+
