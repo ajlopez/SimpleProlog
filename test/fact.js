@@ -107,3 +107,12 @@ assert.equal(fact1.nanonymous, 0);
 assert.ok(fact1.variables);
 assert.equal(fact1.variables.length, 1);
 assert.equal(fact1.variables[0], 'X');
+
+// fact with items as arguments in constructor
+
+var fact1 = fact(atom('a'), 1, 2, 3);
+assert.equal(fact1.asString(), "a(1, 2, 3)");
+var fact2 = fact(atom('b'), variable('X'), atom('a'), 3);
+assert.equal(fact2.asString(), "b(X, a, 3)");
+
+
