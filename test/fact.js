@@ -88,3 +88,13 @@ assert.equal(fact1.variables.length, 2);
 assert.equal(fact1.variables[0], 'Y');
 assert.equal(fact1.variables[1], 'X');
 
+// fact with functor variable
+
+var fact1 = fact(variable('Z'), [variable('Y'), variable('X')]);
+assert.equal(fact1.nvariables, 3);
+assert.equal(fact1.nanonymous, 0);
+assert.ok(fact1.variables);
+assert.equal(fact1.variables.length, 3);
+assert.equal(fact1.variables[0], 'Z');
+assert.equal(fact1.variables[1], 'Y');
+assert.equal(fact1.variables[2], 'X');
