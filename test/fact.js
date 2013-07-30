@@ -1,6 +1,7 @@
 
 var fact = require('../lib/fact'),
     atom = require('../lib/atom'),
+    variable = require('../lib/variable'),
     assert = require('assert');
     
 // fact as a function
@@ -68,4 +69,12 @@ assert.equal(fact1.nvariables, 0);
 assert.equal(fact1.nanonymous, 0);
 assert.equal(fact.variables, null);
 
+// fact with one variable
+
+var fact1 = fact(atom('a'), [2, variable('X')]);
+assert.equal(fact1.nvariables, 1);
+assert.equal(fact1.nanonymous, 0);
+assert.ok(fact1.variables);
+assert.equal(fact1.variables.length, 1);
+assert.equal(fact1.variables[0], 'X');
 
