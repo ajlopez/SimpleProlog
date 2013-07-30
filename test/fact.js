@@ -98,3 +98,12 @@ assert.equal(fact1.variables.length, 3);
 assert.equal(fact1.variables[0], 'Z');
 assert.equal(fact1.variables[1], 'Y');
 assert.equal(fact1.variables[2], 'X');
+
+// fact with repeated variable
+
+var fact1 = fact(atom('a'), [variable('X'), variable('X')]);
+assert.equal(fact1.nvariables, 1);
+assert.equal(fact1.nanonymous, 0);
+assert.ok(fact1.variables);
+assert.equal(fact1.variables.length, 1);
+assert.equal(fact1.variables[0], 'X');
