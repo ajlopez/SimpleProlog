@@ -115,4 +115,14 @@ assert.equal(fact1.asString(), "a(1, 2, 3)");
 var fact2 = fact(atom('b'), variable('X'), atom('a'), 3);
 assert.equal(fact2.asString(), "b(X, a, 3)");
 
+// fact with facts with variables
 
+var fact1 = fact(atom('a'), fact(atom('b'), variable('X')), fact(atom('c'), variable('Y')), fact(atom('d'), variable('X')));
+assert.equal(fact1.nvariables, 2);
+assert.equal(fact1.nanonymous, 0);
+assert.ok(fact1.variables);
+assert.equal(fact1.variables.length, 2);
+assert.equal(fact1.variables[0], 'X');
+assert.equal(fact1.variables[1], 'Y');
+
+// TODO: count anonymous variables, including nested facts
