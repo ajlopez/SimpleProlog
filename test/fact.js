@@ -61,4 +61,11 @@ assert.equal(fact1.match(fact3), false);
 assert.equal(fact1.match(fact4), false);
 assert.equal(fact1.match(fact5), false);
 
+// fact has nvariables, nanonymous == 0
+
+var fact1 = fact(atom('a'), [2, atom('b')]);
+assert.equal(fact1.nvariables, 0);
+assert.equal(fact1.nanonymous, 0);
+assert.equal(fact.variables, null);
+
 
