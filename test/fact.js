@@ -125,4 +125,15 @@ assert.equal(fact1.variables.length, 2);
 assert.equal(fact1.variables[0], 'X');
 assert.equal(fact1.variables[1], 'Y');
 
+// variables annotated with offset in a fact
+
+var variablex = variable('X');
+var variablex2 = variable('X');
+var variabley = variable('Y');
+var fact1 = fact(atom('a'), fact(atom('b'), variablex), fact(atom('c'), variabley), fact(atom('d'), variablex2));
+
+assert.equal(variablex.offset, 0);
+assert.equal(variabley.offset, 1);
+assert.equal(variablex2.offset, 0);
+
 // TODO: count anonymous variables, including nested facts
