@@ -161,3 +161,15 @@ var value = bind.get(0);
 assert.ok(value);
 assert.equal(value.name, 'b');
 
+// fact with atom match fact with variable
+
+var fact1 = fact(atom('a'), [1, atom('b')]);
+var fact1x = fact(atom('a'), [1, variable('X')]);
+var bind = binding(1);
+var result = fact1.match(fact1x, bind);
+assert.ok(result);
+var value = bind.get(0);
+assert.ok(value);
+assert.equal(value.name, 'b');
+
+

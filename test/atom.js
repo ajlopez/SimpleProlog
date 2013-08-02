@@ -1,5 +1,7 @@
 
 var atom = require('../lib/atom'),
+    binding = require('../lib/binding'),
+    variable = require('../lib/variable'),
     assert = require('assert');
     
 // atom as a function
@@ -47,3 +49,13 @@ assert.ok(!atomfoo.match(false));
 // no match with true
 
 assert.ok(!atomfoo.match(true));
+
+// match with variable
+
+var bindings = binding(1);
+var varx = variable('X');
+varx.offset = 0;
+assert.ok(atomfoo.match(varx, bindings));
+var value = bindings.get(0);
+assert.ok(value);
+assert.equal(value.name, 'foo');
