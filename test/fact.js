@@ -2,6 +2,7 @@
 var fact = require('../lib/fact'),
     atom = require('../lib/atom'),
     variable = require('../lib/variable'),
+    binding = require('../lib/binding'),
     assert = require('assert');
     
 // fact as a function
@@ -149,4 +150,14 @@ assert.equal(anon1.offset, 0);
 assert.equal(anon2.offset, 1);
 assert.equal(anon3.offset, 2);
 
-// TODO: count anonymous variables, including nested facts
+// fact with variable match fact with atom
+
+var fact1 = fact(atom('a'), [1, atom('b')]);
+var fact1x = fact(atom('a'), [1, variable('X')]);
+var bind = binding(1);
+var result = fact1x.match(fact1, bind);
+assert.ok(result);
+var value = bind.get(0);
+assert.ok(value);
+assert.equal(value.name, 'b');
+
