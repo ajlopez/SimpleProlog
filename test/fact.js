@@ -47,9 +47,10 @@ assert.equal(fact1.match(atom('a')), false);
 
 // fact match similar fact
 
+var bindings = binding(0);
 var fact1b = fact(atom('a'), [1, atom('b')]);
-assert.equal(fact1.match(fact1b), true);
-assert.equal(fact1b.match(fact1), true);
+assert.equal(fact1.match(fact1b, bindings), true);
+assert.equal(fact1b.match(fact1, bindings), true);
 
 // fact does not match not similar fact
 
@@ -58,10 +59,10 @@ var fact3 = fact(atom('a'), [1, atom('c')]);
 var fact4 = fact(atom('c'), [1, atom('b')]);
 var fact5 = fact(atom('a'), [1, atom('b'), 3]);
 
-assert.equal(fact1.match(fact2), false);
-assert.equal(fact1.match(fact3), false);
-assert.equal(fact1.match(fact4), false);
-assert.equal(fact1.match(fact5), false);
+assert.equal(fact1.match(fact2, bindings), false);
+assert.equal(fact1.match(fact3, bindings), false);
+assert.equal(fact1.match(fact4, bindings), false);
+assert.equal(fact1.match(fact5, bindings), false);
 
 // fact has nvariables, nanonymous == 0
 
@@ -172,4 +173,11 @@ var value = bindings.get(0);
 assert.ok(value);
 assert.equal(value.name, 'b');
 
+// fact with variables don't match
 
+var fact1 = fact(atom('a'), [1, 2, 3]);
+var fact1xy = fact(atom('a'), [variable('X'), variable('Y'), variable('Y')]);
+var bindings = binding(2);
+assert.equal(fact1xy.match(fact1, bindings), false);
+assert.equal(bindings.get(0), null);
+assert.equal(bindings.get(1), null);
