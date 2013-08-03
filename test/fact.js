@@ -154,10 +154,10 @@ assert.equal(anon3.offset, 2);
 
 var fact1 = fact(atom('a'), [1, atom('b')]);
 var fact1x = fact(atom('a'), [1, variable('X')]);
-var bind = binding(1);
-var result = fact1x.match(fact1, bind);
+var bindings = binding(1);
+var result = fact1x.match(fact1, bindings);
 assert.ok(result);
-var value = bind.get(0);
+var value = bindings.get(0);
 assert.ok(value);
 assert.equal(value.name, 'b');
 
@@ -165,10 +165,10 @@ assert.equal(value.name, 'b');
 
 var fact1 = fact(atom('a'), [1, atom('b')]);
 var fact1x = fact(atom('a'), [1, variable('X')]);
-var bind = binding(1);
-var result = fact1.match(fact1x, bind);
+var bindings = binding(1);
+var result = fact1.match(fact1x, bindings);
 assert.ok(result);
-var value = bind.get(0);
+var value = bindings.get(0);
 assert.ok(value);
 assert.equal(value.name, 'b');
 
