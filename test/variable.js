@@ -106,3 +106,30 @@ bind.set(0, 3);
 assert.equal(varx.match(vary, bind), true);
 assert.strictEqual(bind.get(1), 3);
 assert.strictEqual(bind.get(0), 3);
+
+// bound variable to integer matches bound variable to same integer
+
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+
+var bind = binding(2);
+bind.set(0, 3);
+bind.set(1, 3);
+
+assert.equal(varx.match(vary, bind), true);
+assert.strictEqual(bind.get(1), 3);
+assert.strictEqual(bind.get(0), 3);
+
+// bound variable to atom matches bound variable to same atom
+
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+var atoma = atom('a');
+
+var bind = binding(2);
+bind.set(0, atoma);
+bind.set(1, atoma);
+
+assert.equal(varx.match(vary, bind), true);
+assert.strictEqual(bind.get(1), atoma);
+assert.strictEqual(bind.get(0), atoma);
