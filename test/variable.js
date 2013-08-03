@@ -76,10 +76,33 @@ assert.equal(vary.match(varx, bind), true);
 assert.strictEqual(bind.get(1), varx);
 assert.equal(bind.get(0), null);
 
-// variable match same offset variable
+// variable matches same offset variable
 
 var varx = variable('X', 0);
 var varx2 = variable('X', 0);
 assert.equal(varx.match(varx2), true);
 
+// bound variable to atom matches variable
 
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+var atoma = atom('a');
+
+var bind = binding(2);
+bind.set(0, atoma);
+
+assert.equal(varx.match(vary, bind), true);
+assert.strictEqual(bind.get(1), atoma);
+assert.strictEqual(bind.get(0), atoma);
+
+// bound variable to integer matches variable
+
+var varx = variable('X', 0);
+var vary = variable('Y', 1);
+
+var bind = binding(2);
+bind.set(0, 3);
+
+assert.equal(varx.match(vary, bind), true);
+assert.strictEqual(bind.get(1), 3);
+assert.strictEqual(bind.get(0), 3);
