@@ -76,4 +76,10 @@ assert.equal(vary.match(varx, bind), true);
 assert.strictEqual(bind.get(1), varx);
 assert.equal(bind.get(0), null);
 
+// variable match same offset variable
+
+var varx = variable('X', 0);
+var varx2 = variable('X', 0);
+assert.equal(varx.match(varx2), true);
+
 
