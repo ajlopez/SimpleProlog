@@ -32,29 +32,29 @@ assert.equal(result.offset, 10);
 var varx = variable('X', 0);
 assert.ok(varx);
 assert.strictEqual(varx.offset, 0);
-var bind = binding(1);
+var bindings = binding(1);
 var atomx = atom('x');
-assert.equal(varx.match(atomx, bind), true);
+assert.equal(varx.match(atomx, bindings), true);
 
-var result = bind.get(0);
+var result = bindings.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
 
 // bound variable does not match other atom
 
 var atomy = atom('y');
-assert.equal(varx.match(atomy, bind), false);
+assert.equal(varx.match(atomy, bindings), false);
 
-var result = bind.get(0);
+var result = bindings.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
 
 // bound variable match atom with same name
 
 var atomx2 = atom('x');
-assert.equal(varx.match(atomx2, bind), true);
+assert.equal(varx.match(atomx2, bindings), true);
 
-var result = bind.get(0);
+var result = bindings.get(0);
 assert.ok(result);
 assert.strictEqual(result, atomx);
 
@@ -62,19 +62,19 @@ assert.strictEqual(result, atomx);
 
 var varx = variable('X', 0);
 var vary = variable('Y', 1);
-var bind = binding(2);
-assert.equal(varx.match(vary, bind), true);
-assert.strictEqual(bind.get(1), varx);
-assert.equal(bind.get(0), null);
+var bindings = binding(2);
+assert.equal(varx.match(vary, bindings), true);
+assert.strictEqual(bindings.get(1), varx);
+assert.equal(bindings.get(0), null);
 
 // unbound variables match, inverse order
 
 var varx = variable('X', 0);
 var vary = variable('Y', 1);
-var bind = binding(2);
-assert.equal(vary.match(varx, bind), true);
-assert.strictEqual(bind.get(1), varx);
-assert.equal(bind.get(0), null);
+var bindings = binding(2);
+assert.equal(vary.match(varx, bindings), true);
+assert.strictEqual(bindings.get(1), varx);
+assert.equal(bindings.get(0), null);
 
 // variable matches same offset variable
 
@@ -88,37 +88,37 @@ var varx = variable('X', 0);
 var vary = variable('Y', 1);
 var atoma = atom('a');
 
-var bind = binding(2);
-bind.set(0, atoma);
+var bindings = binding(2);
+bindings.set(0, atoma);
 
-assert.equal(varx.match(vary, bind), true);
-assert.strictEqual(bind.get(1), atoma);
-assert.strictEqual(bind.get(0), atoma);
+assert.equal(varx.match(vary, bindings), true);
+assert.strictEqual(bindings.get(1), atoma);
+assert.strictEqual(bindings.get(0), atoma);
 
 // bound variable to integer matches variable
 
 var varx = variable('X', 0);
 var vary = variable('Y', 1);
 
-var bind = binding(2);
-bind.set(0, 3);
+var bindings = binding(2);
+bindings.set(0, 3);
 
-assert.equal(varx.match(vary, bind), true);
-assert.strictEqual(bind.get(1), 3);
-assert.strictEqual(bind.get(0), 3);
+assert.equal(varx.match(vary, bindings), true);
+assert.strictEqual(bindings.get(1), 3);
+assert.strictEqual(bindings.get(0), 3);
 
 // bound variable to integer matches bound variable to same integer
 
 var varx = variable('X', 0);
 var vary = variable('Y', 1);
 
-var bind = binding(2);
-bind.set(0, 3);
-bind.set(1, 3);
+var bindings = binding(2);
+bindings.set(0, 3);
+bindings.set(1, 3);
 
-assert.equal(varx.match(vary, bind), true);
-assert.strictEqual(bind.get(1), 3);
-assert.strictEqual(bind.get(0), 3);
+assert.equal(varx.match(vary, bindings), true);
+assert.strictEqual(bindings.get(1), 3);
+assert.strictEqual(bindings.get(0), 3);
 
 // bound variable to atom matches bound variable to same atom
 
@@ -126,10 +126,10 @@ var varx = variable('X', 0);
 var vary = variable('Y', 1);
 var atoma = atom('a');
 
-var bind = binding(2);
-bind.set(0, atoma);
-bind.set(1, atoma);
+var bindings = binding(2);
+bindings.set(0, atoma);
+bindings.set(1, atoma);
 
-assert.equal(varx.match(vary, bind), true);
-assert.strictEqual(bind.get(1), atoma);
-assert.strictEqual(bind.get(0), atoma);
+assert.equal(varx.match(vary, bindings), true);
+assert.strictEqual(bindings.get(1), atoma);
+assert.strictEqual(bindings.get(0), atoma);
