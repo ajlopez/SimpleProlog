@@ -117,3 +117,22 @@ assert.throws(
     },
     Error
 );
+
+// Reset bindings
+
+var bindings = binding(3);
+bindings.set(0, 1);
+bindings.set(1, 2);
+bindings.set(2, 3);
+var current = bindings.current();
+assert.ok(current);
+assert.equal(current.size, 3);
+assert.equal(current.nbindings, 3);
+bindings.reset({ size: 3, nbindings: 0 });
+assert.equal(bindings.get(0), null);
+assert.equal(bindings.get(1), null);
+assert.equal(bindings.get(2), null);
+var current = bindings.current();
+assert.ok(current);
+assert.equal(current.size, 3);
+assert.equal(current.nbindings, 0);
