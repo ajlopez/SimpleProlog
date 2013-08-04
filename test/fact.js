@@ -181,3 +181,64 @@ var bindings = binding(2);
 assert.equal(fact1xy.match(fact1, bindings), false);
 assert.equal(bindings.get(0), null);
 assert.equal(bindings.get(1), null);
+
+// fact match variable
+
+var fact1 = fact(atom('a'), 1, 2, 3);
+var varx = variable('X');
+varx.offset = 0;
+var bindings = binding(1);
+assert.equal(fact1.match(varx, bindings), true);
+assert.strictEqual(bindings.get(0), fact1);
+
+// bound variables that not matches
+
+var varx = variable('X');
+var vary = variable('Y');
+var fact1 = fact(atom('a'), varx, vary, varx);
+var fact2 = fact(atom('a'), fact(atom('b'), 1), fact(atom('c'), 2), vary);
+varx.offset = 0;
+vary.offset = 1;
+var bindings = binding(2);
+assert.equal(fact1.match(fact2, bindings), false);
+assert.equal(bindings.get(0), null);
+assert.equal(bindings.get(1), null);
+
+// match facts with cycles
+
+var varx = variable('X');
+var vary = variable('Y');
+var fact1 = fact(atom('a'), varx, vary);
+var fact2 = fact(atom('a'), fact(atom('b'), vary), fact(atom('c'), varx));
+varx.offset = 0;
+vary.offset = 1;
+var bindings = binding(2);
+assert.equal(fact1.match(fact2, bindings), true);
+assert.ok(bindings.get(0));
+assert.ok(bindings.get(1));
+
+// match variables with cycles
+
+var varx = variable('X');
+var vary = variable('Y');
+var fact1 = fact(atom('a'), varx, vary, varx);
+var fact2 = fact(atom('a'), fact(atom('b'), varx), fact(atom('b'), vary), vary);
+varx.offset = 0;
+vary.offset = 1;
+var bindings = binding(2);
+assert.equal(fact1.match(fact2, bindings), true);
+assert.ok(bindings.get(0));
+assert.ok(bindings.get(1));
+
+// match variables with cross cycles
+
+var varx = variable('X');
+var vary = variable('Y');
+var fact1 = fact(atom('a'), varx, vary, varx);
+var fact2 = fact(atom('a'), fact(atom('b'), vary), fact(atom('b'), varx), vary);
+varx.offset = 0;
+vary.offset = 1;
+var bindings = binding(2);
+assert.equal(fact1.match(fact2, bindings), true);
+assert.ok(bindings.get(0));
+assert.ok(bindings.get(1));
