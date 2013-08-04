@@ -29,9 +29,9 @@ assert.equal(base1.query(fact2), false);
 // query known fact with callback
 
 var count = 0;
-base1.query(fact1, function (err, bindings) {
+base1.query(fact1, function (err, result) {
     assert.ok(!err);
-    assert.ok(bindings);
+    assert.ok(result);
     count++;
 });
 
@@ -41,16 +41,17 @@ assert.equal(count, 1);
 
 var count = 0;
 
-base1.query(fact1, function (err, bindings, next) {
+base1.query(fact1, function (err, result, next) {
     assert.ok(!err);
+    
     if (count)
-        assert.equal(bindings, false);
+        assert.equal(result, false);
     else
-        assert.ok(bindings);
+        assert.ok(result);
         
     count++;
     
-    if (bindings)
+    if (result)
         next();
 });
 
@@ -59,9 +60,9 @@ assert.equal(count, 2);
 // query unknown fact with callback
 
 var count = 0;
-base1.query(fact2, function (err, bindings) {
+base1.query(fact2, function (err, result) {
     assert.ok(!err);
-    assert.equal(bindings, false);
+    assert.equal(result, false);
     count++;
 });
 
@@ -83,3 +84,21 @@ assert.ok(result);
 assert.equal(typeof result, 'object');
 assert.ok(result.X);
 assert.equal(result.X.name, 'b');
+
+// query using a variable and repeated callback
+
+var results = [];
+
+base1.query(factx, function (err, result, next) {
+    assert.ok(!err);
+    
+    if (result) {
+        results.push(result);
+        next();
+    }
+});
+
+assert.equal(results.length, 2);
+assert.equal(results[0].X.name, 'b');
+assert.equal(results[1].X.name, 'c');
+
