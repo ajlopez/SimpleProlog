@@ -18,6 +18,7 @@ assert.ok(result.functor);
 assert.equal(result.functor.asString(), 'a');
 assert.equal(result.arity, 2);
 assert.equal(result.asString(), 'a(1, 2)');
+assert.equal(result.signature, 'a:2');
 
 // structure with atoms as arguments
 
@@ -27,6 +28,7 @@ assert.ok(result.functor);
 assert.equal(result.functor.asString(), 'a');
 assert.equal(result.arity, 3);
 assert.equal(result.asString(), 'a(b, c, d)');
+assert.equal(result.signature, 'a:3');
 
 // structure with only functor
 
@@ -36,6 +38,7 @@ assert.ok(result.functor);
 assert.equal(result.functor.asString(), 'a');
 assert.equal(result.arity, 0);
 assert.equal(result.asString(), 'a()');
+assert.equal(result.signature, 'a:0');
 
 // structure does not match integer, string, real, atom
 
