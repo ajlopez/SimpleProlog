@@ -20,5 +20,21 @@ assert.equal(token.type, TokenType.Name);
 
 assert.equal(lexer1.nextToken(), null);
 
+// get two tokens
+    
+var lexer2 = lexer('a b');
+
+var token = lexer2.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'a');
+assert.equal(token.type, TokenType.Name);
+token = lexer2.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'b');
+assert.equal(token.type, TokenType.Name);
+assert.equal(lexer2.nextToken(), null);
+
+
+
 
 
