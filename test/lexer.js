@@ -16,3 +16,9 @@ assert.ok(token);
 assert.equal(token.value, 'a');
 assert.equal(token.type, TokenType.Name);
 
+// then next token is null
+
+assert.equal(lexer1.nextToken(), null);
+
+
+
