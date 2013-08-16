@@ -58,7 +58,29 @@ assert.equal(token.value, 'bar');
 assert.equal(token.type, TokenType.Name);
 assert.equal(lexer4.nextToken(), null);
 
+// get ( ) , . as separators
+    
+var lexer5 = lexer('(),.');
 
+var token = lexer5.nextToken();
+assert.ok(token);
+assert.equal(token.value, '(');
+assert.equal(token.type, TokenType.Separator);
 
+token = lexer5.nextToken();
+assert.ok(token);
+assert.equal(token.value, ')');
+assert.equal(token.type, TokenType.Separator);
 
+token = lexer5.nextToken();
+assert.ok(token);
+assert.equal(token.value, ',');
+assert.equal(token.type, TokenType.Separator);
+
+token = lexer5.nextToken();
+assert.ok(token);
+assert.equal(token.value, '.');
+assert.equal(token.type, TokenType.Separator);
+
+assert.equal(lexer5.nextToken(), null);
 
