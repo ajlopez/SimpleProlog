@@ -44,6 +44,21 @@ assert.equal(token.value, '123');
 assert.equal(token.type, TokenType.Integer);
 assert.equal(lexer3.nextToken(), null);
 
+// get an integer and name
+    
+var lexer4 = lexer('123bar');
+
+var token = lexer4.nextToken();
+assert.ok(token);
+assert.equal(token.value, '123');
+assert.equal(token.type, TokenType.Integer);
+token = lexer4.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'bar');
+assert.equal(token.type, TokenType.Name);
+assert.equal(lexer4.nextToken(), null);
+
+
 
 
 
