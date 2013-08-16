@@ -84,3 +84,28 @@ assert.equal(token.type, TokenType.Separator);
 
 assert.equal(lexer5.nextToken(), null);
 
+// get name, separator, integer, separator
+
+var lexer6 = lexer('a(1)');
+
+var token = lexer6.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'a');
+assert.equal(token.type, TokenType.Name);
+
+token = lexer6.nextToken();
+assert.ok(token);
+assert.equal(token.value, '(');
+assert.equal(token.type, TokenType.Separator);
+
+token = lexer6.nextToken();
+assert.ok(token);
+assert.equal(token.value, '1');
+assert.equal(token.type, TokenType.Integer);
+
+token = lexer6.nextToken();
+assert.ok(token);
+assert.equal(token.value, ')');
+assert.equal(token.type, TokenType.Separator);
+
+assert.equal(lexer6.nextToken(), null);
