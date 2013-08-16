@@ -14,7 +14,7 @@ assert.ok(lexer1);
 var token = lexer1.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
-assert.equal(token.type, TokenType.Name);
+assert.equal(token.type, TokenType.Atom);
 
 // then next token is null
 
@@ -27,11 +27,11 @@ var lexer2 = lexer('a b');
 var token = lexer2.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
-assert.equal(token.type, TokenType.Name);
+assert.equal(token.type, TokenType.Atom);
 token = lexer2.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'b');
-assert.equal(token.type, TokenType.Name);
+assert.equal(token.type, TokenType.Atom);
 assert.equal(lexer2.nextToken(), null);
 
 // get an integer
@@ -44,7 +44,7 @@ assert.equal(token.value, '123');
 assert.equal(token.type, TokenType.Integer);
 assert.equal(lexer3.nextToken(), null);
 
-// get an integer and name
+// get an integer and atom
     
 var lexer4 = lexer('123bar');
 
@@ -55,7 +55,7 @@ assert.equal(token.type, TokenType.Integer);
 token = lexer4.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'bar');
-assert.equal(token.type, TokenType.Name);
+assert.equal(token.type, TokenType.Atom);
 assert.equal(lexer4.nextToken(), null);
 
 // get ( ) , . as separators
@@ -84,14 +84,14 @@ assert.equal(token.type, TokenType.Separator);
 
 assert.equal(lexer5.nextToken(), null);
 
-// get name, separator, integer, separator
+// get atom, separator, integer, separator
 
 var lexer6 = lexer('a(1)');
 
 var token = lexer6.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
-assert.equal(token.type, TokenType.Name);
+assert.equal(token.type, TokenType.Atom);
 
 token = lexer6.nextToken();
 assert.ok(token);
@@ -109,3 +109,15 @@ assert.equal(token.value, ')');
 assert.equal(token.type, TokenType.Separator);
 
 assert.equal(lexer6.nextToken(), null);
+
+// get variable
+
+var lexer7 = lexer('X');
+
+var token = lexer7.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'X');
+assert.equal(token.type, TokenType.Variable);
+
+assert.equal(lexer7.nextToken(), null);
+
