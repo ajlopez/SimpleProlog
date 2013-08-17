@@ -121,3 +121,19 @@ assert.equal(token.type, TokenType.Variable);
 
 assert.equal(lexer7.nextToken(), null);
 
+// get quoted atoms
+
+var lexer8 = lexer("'X' 'to be or not to be'");
+
+var token = lexer8.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'X');
+assert.equal(token.type, TokenType.Atom);
+
+var token = lexer8.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'to be or not to be');
+assert.equal(token.type, TokenType.Atom);
+
+assert.equal(lexer8.nextToken(), null);
+
