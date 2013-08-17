@@ -137,3 +137,16 @@ assert.equal(token.type, TokenType.Atom);
 
 assert.equal(lexer8.nextToken(), null);
 
+// get unclosed quoted atom
+
+var lexer9 = lexer("'X");
+
+assert.throws(
+    function() {
+        lexer9.nextToken();
+    },
+    function(err) {
+        if (err === "unclosed quoted atom")
+            return true;
+    }
+);
