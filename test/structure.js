@@ -2,246 +2,248 @@
 var structure = require('../lib/structure'),
     atom = require('../lib/atom'),
     variable = require('../lib/variable'),
-    binding = require('../lib/binding'),
-    assert = require('assert');
+    binding = require('../lib/binding');
     
-// structure as a function
+exports['structure as a function'] = function (test) {
+    test.ok(structure);
+    test.equal(typeof structure, 'function');
+}
 
-assert.ok(structure);
-assert.equal(typeof structure, 'function');
+exports['structure with arguments'] = function (test) {
+    var result = structure(atom('a'), [1, 2]);
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.asString(), 'a');
+    test.equal(result.arity, 2);
+    test.equal(result.asString(), 'a(1, 2)');
+    test.equal(result.signature, 'a:2');
+}
 
-// structure with arguments
+exports['structure with atoms as arguments'] = function (test) {
+    var result = structure(atom('a'), [atom('b'), atom('c'), atom('d')]);
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.asString(), 'a');
+    test.equal(result.arity, 3);
+    test.equal(result.asString(), 'a(b, c, d)');
+    test.equal(result.signature, 'a:3');
+}
 
-var result = structure(atom('a'), [1, 2]);
-assert.ok(result);
-assert.ok(result.functor);
-assert.equal(result.functor.asString(), 'a');
-assert.equal(result.arity, 2);
-assert.equal(result.asString(), 'a(1, 2)');
-assert.equal(result.signature, 'a:2');
+exports['structure with only functor'] = function (test) {
+    var result = structure(atom('a'));
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.asString(), 'a');
+    test.equal(result.arity, 0);
+    test.equal(result.asString(), 'a()');
+    test.equal(result.signature, 'a:0');
+}
 
-// structure with atoms as arguments
+exports['structure does not match integer, string, real, atom'] = function (test) {
+    var structure1 = structure(atom('a'), [1, atom('b')]);
+    test.equal(structure1.match(1), false);
+    test.equal(structure1.match("foo"), false);
+    test.equal(structure1.match(1.2), false);
+    test.equal(structure1.match(atom('a')), false);
+}
 
-var result = structure(atom('a'), [atom('b'), atom('c'), atom('d')]);
-assert.ok(result);
-assert.ok(result.functor);
-assert.equal(result.functor.asString(), 'a');
-assert.equal(result.arity, 3);
-assert.equal(result.asString(), 'a(b, c, d)');
-assert.equal(result.signature, 'a:3');
+exports['structure match similar structure'] = function (test) {
+    var bindings = binding(0);
+    var structure1 = structure(atom('a'), [1, atom('b')]);
+    var structure1b = structure(atom('a'), [1, atom('b')]);
+    test.equal(structure1.match(structure1b, bindings), true);
+    test.equal(structure1b.match(structure1, bindings), true);
+}
 
-// structure with only functor
+exports['structure does not match not similar structure'] = function (test) {
+    var bindings = binding(0);
+    var structure1 = structure(atom('a'), [1, atom('b')]);
+    var structure2 = structure(atom('a'), [2, atom('b')]);
+    var structure3 = structure(atom('a'), [1, atom('c')]);
+    var structure4 = structure(atom('c'), [1, atom('b')]);
+    var structure5 = structure(atom('a'), [1, atom('b'), 3]);
 
-var result = structure(atom('a'));
-assert.ok(result);
-assert.ok(result.functor);
-assert.equal(result.functor.asString(), 'a');
-assert.equal(result.arity, 0);
-assert.equal(result.asString(), 'a()');
-assert.equal(result.signature, 'a:0');
+    test.equal(structure1.match(structure2, bindings), false);
+    test.equal(structure1.match(structure3, bindings), false);
+    test.equal(structure1.match(structure4, bindings), false);
+    test.equal(structure1.match(structure5, bindings), false);
+}
 
-// structure does not match integer, string, real, atom
+exports['structure has nvariables, nanonymous == 0'] = function (test) {
+    var structure1 = structure(atom('a'), [2, atom('b')]);
+    test.equal(structure1.nvariables, 0);
+    test.equal(structure1.nanonymous, 0);
+    test.equal(structure.variables, null);
+}
 
-var structure1 = structure(atom('a'), [1, atom('b')]);
-assert.equal(structure1.match(1), false);
-assert.equal(structure1.match("foo"), false);
-assert.equal(structure1.match(1.2), false);
-assert.equal(structure1.match(atom('a')), false);
+exports['structure with one variable'] = function (test) {
+    var structure1 = structure(atom('a'), [2, variable('X')]);
+    test.equal(structure1.nvariables, 1);
+    test.equal(structure1.nanonymous, 0);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables.length, 1);
+    test.equal(structure1.variables[0], 'X');
+}
 
-// structure match similar structure
+exports['structure with two variable'] = function (test) {
+    var structure1 = structure(atom('a'), [variable('Y'), variable('X')]);
+    test.equal(structure1.nvariables, 2);
+    test.equal(structure1.nanonymous, 0);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables.length, 2);
+    test.equal(structure1.variables[0], 'Y');
+    test.equal(structure1.variables[1], 'X');
+}
 
-var bindings = binding(0);
-var structure1b = structure(atom('a'), [1, atom('b')]);
-assert.equal(structure1.match(structure1b, bindings), true);
-assert.equal(structure1b.match(structure1, bindings), true);
+exports['structure with functor variable'] = function (test) {
+    var structure1 = structure(variable('Z'), [variable('Y'), variable('X')]);
+    test.equal(structure1.nvariables, 3);
+    test.equal(structure1.nanonymous, 0);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables.length, 3);
+    test.equal(structure1.variables[0], 'Z');
+    test.equal(structure1.variables[1], 'Y');
+    test.equal(structure1.variables[2], 'X');
+}
 
-// structure does not match not similar structure
+exports['structure with repeated variable'] = function (test) {
+    var structure1 = structure(atom('a'), [variable('X'), variable('X')]);
+    test.equal(structure1.nvariables, 1);
+    test.equal(structure1.nanonymous, 0);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables.length, 1);
+    test.equal(structure1.variables[0], 'X');
+}
 
-var structure2 = structure(atom('a'), [2, atom('b')]);
-var structure3 = structure(atom('a'), [1, atom('c')]);
-var structure4 = structure(atom('c'), [1, atom('b')]);
-var structure5 = structure(atom('a'), [1, atom('b'), 3]);
+exports['structure with items as arguments in constructor'] = function (test) {
+    var structure1 = structure(atom('a'), 1, 2, 3);
+    test.equal(structure1.asString(), "a(1, 2, 3)");
+    var structure2 = structure(atom('b'), variable('X'), atom('a'), 3);
+    test.equal(structure2.asString(), "b(X, a, 3)");
+}
 
-assert.equal(structure1.match(structure2, bindings), false);
-assert.equal(structure1.match(structure3, bindings), false);
-assert.equal(structure1.match(structure4, bindings), false);
-assert.equal(structure1.match(structure5, bindings), false);
+exports['structure with structures with variables'] = function (test) {
+    var structure1 = structure(atom('a'), structure(atom('b'), variable('X')), structure(atom('c'), variable('Y')), structure(atom('d'), variable('X')));
+    test.equal(structure1.nvariables, 2);
+    test.equal(structure1.nanonymous, 0);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables.length, 2);
+    test.equal(structure1.variables[0], 'X');
+    test.equal(structure1.variables[1], 'Y');
+}
 
-// structure has nvariables, nanonymous == 0
+exports['variables annotated with offset in a structure'] = function (test) {
+    var variablex = variable('X');
+    var variablex2 = variable('X');
+    var variabley = variable('Y');
+    var structure1 = structure(atom('a'), structure(atom('b'), variablex), structure(atom('c'), variabley), structure(atom('d'), variablex2));
 
-var structure1 = structure(atom('a'), [2, atom('b')]);
-assert.equal(structure1.nvariables, 0);
-assert.equal(structure1.nanonymous, 0);
-assert.equal(structure.variables, null);
+    test.equal(variablex.offset, 0);
+    test.equal(variabley.offset, 1);
+    test.equal(variablex2.offset, 0);
+}
 
-// structure with one variable
+exports['anonymous variables counted and annotated with offset'] = function (test) {
+    var anon1 = variable('_');
+    var anon2 = variable('_');
+    var anon3 = variable('_');
+    var structure1 = structure(atom('a'), structure(atom('b'), anon1), structure(atom('c'), anon2), structure(atom('d'), anon3));
 
-var structure1 = structure(atom('a'), [2, variable('X')]);
-assert.equal(structure1.nvariables, 1);
-assert.equal(structure1.nanonymous, 0);
-assert.ok(structure1.variables);
-assert.equal(structure1.variables.length, 1);
-assert.equal(structure1.variables[0], 'X');
+    test.equal(structure1.nvariables, 0);
+    test.equal(structure1.nanonymous, 3);
+    test.equal(anon1.offset, 0);
+    test.equal(anon2.offset, 1);
+    test.equal(anon3.offset, 2);
+}
 
-// structure with two variable
+exports['structure with variable match structure with atom'] = function (test) {
+    var structure1 = structure(atom('a'), [1, atom('b')]);
+    var structure1x = structure(atom('a'), [1, variable('X')]);
+    var bindings = binding(1);
+    var result = structure1x.match(structure1, bindings);
+    test.ok(result);
+    var value = bindings.get(0);
+    test.ok(value);
+    test.equal(value.name, 'b');
+}
 
-var structure1 = structure(atom('a'), [variable('Y'), variable('X')]);
-assert.equal(structure1.nvariables, 2);
-assert.equal(structure1.nanonymous, 0);
-assert.ok(structure1.variables);
-assert.equal(structure1.variables.length, 2);
-assert.equal(structure1.variables[0], 'Y');
-assert.equal(structure1.variables[1], 'X');
+exports['structure with atom match structure with variable'] = function (test) {
+    var structure1 = structure(atom('a'), [1, atom('b')]);
+    var structure1x = structure(atom('a'), [1, variable('X')]);
+    var bindings = binding(1);
+    var result = structure1.match(structure1x, bindings);
+    test.ok(result);
+    var value = bindings.get(0);
+    test.ok(value);
+    test.equal(value.name, 'b');
+}
 
-// structure with functor variable
+exports['structure with variables don\'t match'] = function (test) {
+    var structure1 = structure(atom('a'), [1, 2, 3]);
+    var structure1xy = structure(atom('a'), [variable('X'), variable('Y'), variable('Y')]);
+    var bindings = binding(2);
+    test.equal(structure1xy.match(structure1, bindings), false);
+    test.equal(bindings.get(0), null);
+    test.equal(bindings.get(1), null);
+}
 
-var structure1 = structure(variable('Z'), [variable('Y'), variable('X')]);
-assert.equal(structure1.nvariables, 3);
-assert.equal(structure1.nanonymous, 0);
-assert.ok(structure1.variables);
-assert.equal(structure1.variables.length, 3);
-assert.equal(structure1.variables[0], 'Z');
-assert.equal(structure1.variables[1], 'Y');
-assert.equal(structure1.variables[2], 'X');
+exports['structure match variable'] = function (test) {
+    var structure1 = structure(atom('a'), 1, 2, 3);
+    var varx = variable('X');
+    varx.offset = 0;
+    var bindings = binding(1);
+    test.equal(structure1.match(varx, bindings), true);
+    test.strictEqual(bindings.get(0), structure1);
+}
 
-// structure with repeated variable
+exports['bound variables that not matches'] = function (test) {
+    var varx = variable('X');
+    var vary = variable('Y');
+    var structure1 = structure(atom('a'), varx, vary, varx);
+    var structure2 = structure(atom('a'), structure(atom('b'), 1), structure(atom('c'), 2), vary);
+    varx.offset = 0;
+    vary.offset = 1;
+    var bindings = binding(2);
+    test.equal(structure1.match(structure2, bindings), false);
+    test.equal(bindings.get(0), null);
+    test.equal(bindings.get(1), null);
+}
 
-var structure1 = structure(atom('a'), [variable('X'), variable('X')]);
-assert.equal(structure1.nvariables, 1);
-assert.equal(structure1.nanonymous, 0);
-assert.ok(structure1.variables);
-assert.equal(structure1.variables.length, 1);
-assert.equal(structure1.variables[0], 'X');
+exports['match structures with cycles'] = function (test) {
+    var varx = variable('X');
+    var vary = variable('Y');
+    var structure1 = structure(atom('a'), varx, vary);
+    var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('c'), varx));
+    varx.offset = 0;
+    vary.offset = 1;
+    var bindings = binding(2);
+    test.equal(structure1.match(structure2, bindings), true);
+    test.ok(bindings.get(0));
+    test.ok(bindings.get(1));
+}
 
-// structure with items as arguments in constructor
+exports['match variables with cycles'] = function (test) {
+    var varx = variable('X');
+    var vary = variable('Y');
+    var structure1 = structure(atom('a'), varx, vary, varx);
+    var structure2 = structure(atom('a'), structure(atom('b'), varx), structure(atom('b'), vary), vary);
+    varx.offset = 0;
+    vary.offset = 1;
+    var bindings = binding(2);
+    test.equal(structure1.match(structure2, bindings), true);
+    test.ok(bindings.get(0));
+    test.ok(bindings.get(1));
+}
 
-var structure1 = structure(atom('a'), 1, 2, 3);
-assert.equal(structure1.asString(), "a(1, 2, 3)");
-var structure2 = structure(atom('b'), variable('X'), atom('a'), 3);
-assert.equal(structure2.asString(), "b(X, a, 3)");
-
-// structure with structures with variables
-
-var structure1 = structure(atom('a'), structure(atom('b'), variable('X')), structure(atom('c'), variable('Y')), structure(atom('d'), variable('X')));
-assert.equal(structure1.nvariables, 2);
-assert.equal(structure1.nanonymous, 0);
-assert.ok(structure1.variables);
-assert.equal(structure1.variables.length, 2);
-assert.equal(structure1.variables[0], 'X');
-assert.equal(structure1.variables[1], 'Y');
-
-// variables annotated with offset in a structure
-
-var variablex = variable('X');
-var variablex2 = variable('X');
-var variabley = variable('Y');
-var structure1 = structure(atom('a'), structure(atom('b'), variablex), structure(atom('c'), variabley), structure(atom('d'), variablex2));
-
-assert.equal(variablex.offset, 0);
-assert.equal(variabley.offset, 1);
-assert.equal(variablex2.offset, 0);
-
-// anonymous variables counted and annotated with offset
-
-var anon1 = variable('_');
-var anon2 = variable('_');
-var anon3 = variable('_');
-var structure1 = structure(atom('a'), structure(atom('b'), anon1), structure(atom('c'), anon2), structure(atom('d'), anon3));
-
-assert.equal(structure1.nvariables, 0);
-assert.equal(structure1.nanonymous, 3);
-assert.equal(anon1.offset, 0);
-assert.equal(anon2.offset, 1);
-assert.equal(anon3.offset, 2);
-
-// structure with variable match structure with atom
-
-var structure1 = structure(atom('a'), [1, atom('b')]);
-var structure1x = structure(atom('a'), [1, variable('X')]);
-var bindings = binding(1);
-var result = structure1x.match(structure1, bindings);
-assert.ok(result);
-var value = bindings.get(0);
-assert.ok(value);
-assert.equal(value.name, 'b');
-
-// structure with atom match structure with variable
-
-var structure1 = structure(atom('a'), [1, atom('b')]);
-var structure1x = structure(atom('a'), [1, variable('X')]);
-var bindings = binding(1);
-var result = structure1.match(structure1x, bindings);
-assert.ok(result);
-var value = bindings.get(0);
-assert.ok(value);
-assert.equal(value.name, 'b');
-
-// structure with variables don't match
-
-var structure1 = structure(atom('a'), [1, 2, 3]);
-var structure1xy = structure(atom('a'), [variable('X'), variable('Y'), variable('Y')]);
-var bindings = binding(2);
-assert.equal(structure1xy.match(structure1, bindings), false);
-assert.equal(bindings.get(0), null);
-assert.equal(bindings.get(1), null);
-
-// structure match variable
-
-var structure1 = structure(atom('a'), 1, 2, 3);
-var varx = variable('X');
-varx.offset = 0;
-var bindings = binding(1);
-assert.equal(structure1.match(varx, bindings), true);
-assert.strictEqual(bindings.get(0), structure1);
-
-// bound variables that not matches
-
-var varx = variable('X');
-var vary = variable('Y');
-var structure1 = structure(atom('a'), varx, vary, varx);
-var structure2 = structure(atom('a'), structure(atom('b'), 1), structure(atom('c'), 2), vary);
-varx.offset = 0;
-vary.offset = 1;
-var bindings = binding(2);
-assert.equal(structure1.match(structure2, bindings), false);
-assert.equal(bindings.get(0), null);
-assert.equal(bindings.get(1), null);
-
-// match structures with cycles
-
-var varx = variable('X');
-var vary = variable('Y');
-var structure1 = structure(atom('a'), varx, vary);
-var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('c'), varx));
-varx.offset = 0;
-vary.offset = 1;
-var bindings = binding(2);
-assert.equal(structure1.match(structure2, bindings), true);
-assert.ok(bindings.get(0));
-assert.ok(bindings.get(1));
-
-// match variables with cycles
-
-var varx = variable('X');
-var vary = variable('Y');
-var structure1 = structure(atom('a'), varx, vary, varx);
-var structure2 = structure(atom('a'), structure(atom('b'), varx), structure(atom('b'), vary), vary);
-varx.offset = 0;
-vary.offset = 1;
-var bindings = binding(2);
-assert.equal(structure1.match(structure2, bindings), true);
-assert.ok(bindings.get(0));
-assert.ok(bindings.get(1));
-
-// match variables with cross cycles
-
-var varx = variable('X');
-var vary = variable('Y');
-var structure1 = structure(atom('a'), varx, vary, varx);
-var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('b'), varx), vary);
-varx.offset = 0;
-vary.offset = 1;
-var bindings = binding(2);
-assert.equal(structure1.match(structure2, bindings), true);
-assert.ok(bindings.get(0));
-assert.ok(bindings.get(1));
+exports['match variables with cross cycles'] = function (test) {
+    var varx = variable('X');
+    var vary = variable('Y');
+    var structure1 = structure(atom('a'), varx, vary, varx);
+    var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('b'), varx), vary);
+    varx.offset = 0;
+    vary.offset = 1;
+    var bindings = binding(2);
+    test.equal(structure1.match(structure2, bindings), true);
+    test.ok(bindings.get(0));
+    test.ok(bindings.get(1));
+}

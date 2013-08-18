@@ -1,61 +1,71 @@
 
 var atom = require('../lib/atom'),
     binding = require('../lib/binding'),
-    variable = require('../lib/variable'),
-    assert = require('assert');
+    variable = require('../lib/variable');
     
-// atom as a function
+exports['atom as a function'] = function (test) {
+    test.ok(atom);
+    test.equal(typeof atom, 'function');
+}
 
-assert.ok(atom);
-assert.equal(typeof atom, 'function');
+exports['create atom with name'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(atomfoo);
+    test.equal(atomfoo.name, 'foo');
+    test.equal(atomfoo.asString(), 'foo');
+}
 
-// create atom with name
+exports['match atom with same name'] = function (test) {
+    var atomfoo = atom('foo');
+    var atomfoo2 = atom('foo');
+    test.ok(atomfoo.match(atomfoo2));
+}
 
-var atomfoo = atom('foo');
-assert.ok(atomfoo);
-assert.equal(atomfoo.name, 'foo');
-assert.equal(atomfoo.asString(), 'foo');
+exports['no match atom with other name'] = function (test) {
+    var atomfoo = atom('foo');
+    var atombar = atom('bar');
+    test.ok(!atomfoo.match(atombar));
+}
 
-// match atom with same name
+exports['no match with number'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(!atomfoo.match(42));
+}
 
-var atomfoo2 = atom('foo');
-assert.ok(atomfoo.match(atomfoo2));
+exports['no match with string'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(!atomfoo.match("foo"));
+}
 
-// no match atom with other name
+exports['no match with null'] = function (test) {
+    var atomfoo = atom('foo');
 
-var atombar = atom('bar');
-assert.ok(!atomfoo.match(atombar));
+    test.ok(!atomfoo.match(null));
+}
 
-// no match with number
+exports['no match with undefined'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(!atomfoo.match(null));
+}
 
-assert.ok(!atomfoo.match(42));
+exports['no match with false'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(!atomfoo.match(false));
+}
 
-// no match with string
+exports['no match with true'] = function (test) {
+    var atomfoo = atom('foo');
+    test.ok(!atomfoo.match(true));
+}
 
-assert.ok(!atomfoo.match("foo"));
+exports['match with variable'] = function (test) {
+    var atomfoo = atom('foo');
+    var bindings = binding(1);
+    var varx = variable('X');
+    varx.offset = 0;
+    test.ok(atomfoo.match(varx, bindings));
+    var value = bindings.get(0);
+    test.ok(value);
+    test.equal(value.name, 'foo');
+}
 
-// no match with null
-
-assert.ok(!atomfoo.match(null));
-
-// no match with undefined
-
-assert.ok(!atomfoo.match(null));
-
-// no match with false
-
-assert.ok(!atomfoo.match(false));
-
-// no match with true
-
-assert.ok(!atomfoo.match(true));
-
-// match with variable
-
-var bindings = binding(1);
-var varx = variable('X');
-varx.offset = 0;
-assert.ok(atomfoo.match(varx, bindings));
-var value = bindings.get(0);
-assert.ok(value);
-assert.equal(value.name, 'foo');

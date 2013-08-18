@@ -2,103 +2,124 @@
 var base = require('../lib/base'),
     atom = require('../lib/atom'),
     variable = require('../lib/variable'),
-    structure = require('../lib/structure'),
+    structure = require('../lib/structure');
     assert = require('assert');
     
-// base as a function
+exports['base as a function'] = function (test) {
+    test.ok(base);
+    test.equal(typeof base, 'function');
+}
 
-assert.ok(base);
-assert.equal(typeof base, 'function');
+exports['query an empty base'] = function (test) {
+    var base1 = base();
+    var structure1 = structure(atom('a'));
+    test.equal(base1.query(structure1), false);
+}
 
-// query an empty base
+exports['assert and query'] = function (test) {
+    var base1 = base();
+    var structure1 = structure(atom('a'));
+    base1.assert(structure1);
+    test.equal(base1.query(structure1), true);
+}
 
-var base1 = base();
-var structure1 = structure(atom('a'));
-assert.equal(base1.query(structure1), false);
+exports['query unknown structure'] = function (test) {
+    var base1 = base();
 
-// assert and query
+    var structure1 = structure(atom('b'), [1, 2]);
+    test.equal(base1.query(structure1), false);
+}
 
-base1.assert(structure1);
-assert.equal(base1.query(structure1), true);
-
-// query unknown structure
-
-var structure2 = structure(atom('b'), [1, 2]);
-assert.equal(base1.query(structure2), false);
-
-// query known structure with callback
-
-var count = 0;
-base1.query(structure1, function (err, result) {
-    assert.ok(!err);
-    assert.ok(result);
-    count++;
-});
-
-assert.equal(count, 1);
-
-// query known structure with repeated callback
-
-var count = 0;
-
-base1.query(structure1, function (err, result, next) {
-    assert.ok(!err);
+exports['query known structure with callback'] = function (test) {
+    var base1 = base();
+    var count = 0;
+    var structure1 = structure(atom('a'));
+    base1.assert(structure1);
     
-    if (count)
-        assert.equal(result, false);
-    else
-        assert.ok(result);
+    base1.query(structure1, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        count++;
+    });
+
+    test.equal(count, 1);
+}
+
+exports['query known structure with repeated callback'] = function (test) {
+    var base1 = base();
+    var count = 0;
+    var structure1 = structure(atom('b'), [1, 2]);
+    base1.assert(structure1);
+
+    base1.query(structure1, function (err, result, next) {
+        test.ok(!err);
         
-    count++;
+        if (count)
+            test.equal(result, false);
+        else
+            test.ok(result);
+            
+        count++;
+        
+        if (result)
+            next();
+    });
+
+    test.equal(count, 2);
+}
+
+exports['query unknown structure with callback'] = function (test) {
+    var base1 = base();
+    var count = 0;
+    var structure2 = structure(atom('b'), [1, 2]);
     
-    if (result)
-        next();
-});
+    base1.query(structure2, function (err, result) {
+        test.ok(!err);
+        test.equal(result, false);
+        count++;
+    });
 
-assert.equal(count, 2);
+    test.equal(count, 1);
+}
 
-// query unknown structure with callback
+exports['query using a variable'] = function (test) {
+    var base1 = base();
+    var structure1 = structure(atom('a'), atom('b'));
+    var structure2 = structure(atom('a'), atom('c'));
+    base1.assert(structure1);
+    base1.assert(structure2);
 
-var count = 0;
-base1.query(structure2, function (err, result) {
-    assert.ok(!err);
-    assert.equal(result, false);
-    count++;
-});
+    var structurex = structure(atom('a'), variable('X'));
 
-assert.equal(count, 1);
+    var result = base1.query(structurex);
 
-// query using a variable
+    test.ok(result);
+    test.equal(typeof result, 'object');
+    test.ok(result.X);
+    test.equal(result.X.name, 'b');
+}
 
-var base1 = base();
-var structure1 = structure(atom('a'), atom('b'));
-var structure2 = structure(atom('a'), atom('c'));
-base1.assert(structure1);
-base1.assert(structure2);
-
-var structurex = structure(atom('a'), variable('X'));
-
-var result = base1.query(structurex);
-
-assert.ok(result);
-assert.equal(typeof result, 'object');
-assert.ok(result.X);
-assert.equal(result.X.name, 'b');
-
-// query using a variable and repeated callback
-
-var results = [];
-
-base1.query(structurex, function (err, result, next) {
-    assert.ok(!err);
+exports['query using a variable and repeated callback'] = function (test) {
+    var base1 = base();
+    var structure1 = structure(atom('a'), atom('b'));
+    var structure2 = structure(atom('a'), atom('c'));
+    base1.assert(structure1);
+    base1.assert(structure2);
     
-    if (result) {
-        results.push(result);
-        next();
-    }
-});
+    var structurex = structure(atom('a'), variable('X'));
 
-assert.equal(results.length, 2);
-assert.equal(results[0].X.name, 'b');
-assert.equal(results[1].X.name, 'c');
+    var results = [];
 
+    base1.query(structurex, function (err, result, next) {
+        test.ok(!err);
+        
+        if (result) {
+            results.push(result);
+            next();
+        }
+    });
+
+    test.equal(results.length, 2);
+    test.equal(results[0].X.name, 'b');
+    test.equal(results[1].X.name, 'c');
+}
