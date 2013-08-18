@@ -6,147 +6,149 @@ var TokenType = lexer.TokenType;
     
 // create lexer
     
-var lexer1 = lexer('a');
-assert.ok(lexer1);
+var mylexer = lexer('a');
+assert.ok(mylexer);
 
 // next token
 
-var token = lexer1.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
 assert.equal(token.type, TokenType.Atom);
 
 // then next token is null
 
-assert.equal(lexer1.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get two tokens
     
-var lexer2 = lexer('a b');
+var mylexer = lexer('a b');
 
-var token = lexer2.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
 assert.equal(token.type, TokenType.Atom);
-token = lexer2.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'b');
 assert.equal(token.type, TokenType.Atom);
-assert.equal(lexer2.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get an integer
     
-var lexer3 = lexer('  123  ');
+var mylexer = lexer('  123  ');
 
-var token = lexer3.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '123');
 assert.equal(token.type, TokenType.Integer);
-assert.equal(lexer3.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get an integer and atom
     
-var lexer4 = lexer('123bar');
+var mylexer = lexer('123bar');
 
-var token = lexer4.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '123');
 assert.equal(token.type, TokenType.Integer);
-token = lexer4.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'bar');
 assert.equal(token.type, TokenType.Atom);
-assert.equal(lexer4.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get ( ) , . as separators
     
-var lexer5 = lexer('(),.');
+var mylexer = lexer('(),.');
 
-var token = lexer5.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '(');
 assert.equal(token.type, TokenType.Separator);
 
-token = lexer5.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, ')');
 assert.equal(token.type, TokenType.Separator);
 
-token = lexer5.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, ',');
 assert.equal(token.type, TokenType.Separator);
 
-token = lexer5.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '.');
 assert.equal(token.type, TokenType.Separator);
 
-assert.equal(lexer5.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get atom, separator, integer, separator
 
-var lexer6 = lexer('a(1)');
+var mylexer = lexer('a(1)');
 
-var token = lexer6.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'a');
 assert.equal(token.type, TokenType.Atom);
 
-token = lexer6.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '(');
 assert.equal(token.type, TokenType.Separator);
 
-token = lexer6.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, '1');
 assert.equal(token.type, TokenType.Integer);
 
-token = lexer6.nextToken();
+token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, ')');
 assert.equal(token.type, TokenType.Separator);
 
-assert.equal(lexer6.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get variable
 
-var lexer7 = lexer('X');
+var mylexer = lexer('X');
 
-var token = lexer7.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'X');
 assert.equal(token.type, TokenType.Variable);
 
-assert.equal(lexer7.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get quoted atoms
 
-var lexer8 = lexer("'X' 'to be or not to be'");
+var mylexer = lexer("'X' 'to be or not to be'");
 
-var token = lexer8.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'X');
 assert.equal(token.type, TokenType.Atom);
 
-var token = lexer8.nextToken();
+var token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'to be or not to be');
 assert.equal(token.type, TokenType.Atom);
 
-assert.equal(lexer8.nextToken(), null);
+assert.equal(mylexer.nextToken(), null);
 
 // get unclosed quoted atom
 
-var lexer9 = lexer("'X");
+var mylexer = lexer("'X");
 
 assert.throws(
     function() {
-        lexer9.nextToken();
+        mylexer.nextToken();
     },
     function(err) {
         if (err === "unclosed quoted atom")
             return true;
     }
 );
+
+
