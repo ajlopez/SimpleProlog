@@ -151,4 +151,45 @@ assert.throws(
     }
 );
 
+// get :- as an atom
 
+var mylexer = lexer(":-")
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, ':-');
+assert.equal(token.type, TokenType.Atom);
+
+assert.equal(mylexer.nextToken(), null);
+
+// get ?- as an atom
+
+var mylexer = lexer("?-")
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, '?-');
+assert.equal(token.type, TokenType.Atom);
+
+assert.equal(mylexer.nextToken(), null);
+
+// first rule
+
+var mylexer = lexer("a:-b");
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'a');
+assert.equal(token.type, TokenType.Atom);
+
+token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, ':-');
+assert.equal(token.type, TokenType.Atom);
+
+token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'b');
+assert.equal(token.type, TokenType.Atom);
+
+assert.equal(mylexer.nextToken(), null);
