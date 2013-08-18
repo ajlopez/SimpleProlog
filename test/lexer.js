@@ -131,6 +131,39 @@ assert.equal(token.type, TokenType.Variable);
 
 assert.equal(mylexer.nextToken(), null);
 
+// get variable starting with underscore
+
+var mylexer = lexer('_a');
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, '_a');
+assert.equal(token.type, TokenType.Variable);
+
+assert.equal(mylexer.nextToken(), null);
+
+// get variable starting with underscores
+
+var mylexer = lexer('_a_child');
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, '_a_child');
+assert.equal(token.type, TokenType.Variable);
+
+assert.equal(mylexer.nextToken(), null);
+
+// get anonymous variable
+
+var mylexer = lexer('_');
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, '_');
+assert.equal(token.type, TokenType.Variable);
+
+assert.equal(mylexer.nextToken(), null);
+
 // get quoted atoms
 
 var mylexer = lexer("'X' 'to be or not to be'");
@@ -183,7 +216,7 @@ assert.equal(token.type, TokenType.Atom);
 
 assert.equal(mylexer.nextToken(), null);
 
-// first rule
+// first rule with atoms
 
 var mylexer = lexer("a:-b");
 
@@ -201,5 +234,26 @@ token = mylexer.nextToken();
 assert.ok(token);
 assert.equal(token.value, 'b');
 assert.equal(token.type, TokenType.Atom);
+
+assert.equal(mylexer.nextToken(), null);
+
+// first rule with variables
+
+var mylexer = lexer("A:-B");
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'A');
+assert.equal(token.type, TokenType.Variable);
+
+token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, ':-');
+assert.equal(token.type, TokenType.Atom);
+
+token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'B');
+assert.equal(token.type, TokenType.Variable);
 
 assert.equal(mylexer.nextToken(), null);
