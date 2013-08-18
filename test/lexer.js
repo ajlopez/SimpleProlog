@@ -34,6 +34,16 @@ assert.equal(token.value, 'b');
 assert.equal(token.type, TokenType.Atom);
 assert.equal(mylexer.nextToken(), null);
 
+// atom with underscore
+
+var mylexer = lexer('parent_child');
+
+var token = mylexer.nextToken();
+assert.ok(token);
+assert.equal(token.value, 'parent_child');
+assert.equal(token.type, TokenType.Atom);
+assert.equal(mylexer.nextToken(), null);
+
 // get an integer
     
 var mylexer = lexer('  123  ');
