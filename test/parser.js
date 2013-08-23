@@ -9,3 +9,10 @@ exports['parse atom'] = function (test) {
     test.equal(result.name, 'a');
 }
 
+exports['parse atom with spaces'] = function (test) {
+    var myparser = parser(' a   ');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.equal(result.name, 'a');
+}
