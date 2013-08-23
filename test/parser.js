@@ -30,3 +30,12 @@ exports['parse null as null'] = function (test) {
     
     test.equal(result, null);
 }
+
+exports['parse variable'] = function (test) {
+    var myparser = parser('X');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.variable);
+    test.equal(result.name, 'X');
+}
