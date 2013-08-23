@@ -16,3 +16,17 @@ exports['parse atom with spaces'] = function (test) {
     test.ok(result);
     test.equal(result.name, 'a');
 }
+
+exports['parse empty string as null'] = function (test) {
+    var myparser = parser('');
+    var result = myparser.parse();
+    
+    test.equal(result, null);
+}
+
+exports['parse null as null'] = function (test) {
+    var myparser = parser(null);
+    var result = myparser.parse();
+    
+    test.equal(result, null);
+}
