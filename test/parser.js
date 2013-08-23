@@ -56,3 +56,21 @@ exports['parse structure with arity 1'] = function (test) {
     test.equal(result.args.length, 1);
     test.equal(result.args[0], 1);
 }
+
+exports['parse structure with arity 2'] = function (test) {
+    var myparser = parser('a(1,2)');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, 'a');
+    test.equal(result.arity, 2);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, "a:2");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 2);
+    test.equal(result.args[0], 1);
+    test.equal(result.args[1], 2);
+}
