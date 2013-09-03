@@ -92,3 +92,41 @@ exports['parse and structure with two atoms'] = function (test) {
     test.equal(result.args[0].name, 'a');
     test.equal(result.args[1].name, 'b');
 }
+
+exports['parse and structure with two structures'] = function (test) {
+    var myparser = parser('a(1),b(2,3)');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, ',');
+    test.equal(result.arity, 2);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, ",:2");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 2);
+    test.equal(result.args[0].signature, 'a:1');
+    test.equal(result.args[1].signature, 'b:2');
+}
+
+exports['parse and structure with three structures'] = function (test) {
+    var myparser = parser('a(1),b(2,3),c(4,5,6)');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, ',');
+    test.equal(result.arity, 3);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, ",:3");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 3);
+    test.equal(result.args[0].signature, 'a:1');
+    test.equal(result.args[1].signature, 'b:2');
+    test.equal(result.args[2].signature, 'c:3');
+}
+
