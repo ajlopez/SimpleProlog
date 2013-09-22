@@ -130,3 +130,72 @@ exports['parse and structure with three structures'] = function (test) {
     test.equal(result.args[2].signature, 'c:3');
 }
 
+exports['parse simple rule'] = function (test) {
+    var myparser = parser('a :- b');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, ':-');
+    test.equal(result.arity, 2);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, ":-:2");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 2);
+    test.equal(result.args[0].name, 'a');
+    test.equal(result.args[1].name, 'b');
+}
+
+exports['parse rule with and body'] = function (test) {
+    var myparser = parser('a :- b,c');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, ':-');
+    test.equal(result.arity, 2);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, ":-:2");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 2);
+    test.equal(result.args[0].name, 'a');
+    test.equal(result.args[1].signature, ',:2');
+}
+
+exports['parse simple query'] = function (test) {
+    var myparser = parser('?- a');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, '?-');
+    test.equal(result.arity, 1);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, "?-:1");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 1);
+    test.equal(result.args[0].name, 'a');
+}
+
+exports['parse query with and body'] = function (test) {
+    var myparser = parser('?- a,b');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, '?-');
+    test.equal(result.arity, 1);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, "?-:1");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 1);
+    test.equal(result.args[0].signature, ',:2');
+}
