@@ -36,6 +36,17 @@ exports['next token skipping initial percent comment'] = function (test) {
     test.equal(mylexer.nextToken(), null);
 }
 
+exports['next token skipping initial percent comment ending with carriage return'] = function (test) {
+    var mylexer = lexer('% this is a comment\ra');
+    test.ok(mylexer);
+    var token = mylexer.nextToken();
+    test.ok(token);
+    test.equal(token.value, 'a');
+    test.equal(token.type, TokenType.Atom);
+    
+    test.equal(mylexer.nextToken(), null);
+}
+
 exports['get two tokens'] = function (test) {
     var mylexer = lexer('a b');
 
