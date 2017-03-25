@@ -7,6 +7,18 @@ exports['parse atom'] = function (test) {
     
     test.ok(result);
     test.equal(result.name, 'a');
+	
+	test.equal(myparser.parse(), null);
+}
+
+exports['parse atom and point'] = function (test) {
+    var myparser = parser('a.');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.equal(result.name, 'a');
+	
+	test.equal(myparser.parse(), null);
 }
 
 exports['parse atom with spaces'] = function (test) {
@@ -198,4 +210,25 @@ exports['parse query with and body'] = function (test) {
     test.ok(Array.isArray(result.args));
     test.equal(result.args.length, 1);
     test.equal(result.args[0].signature, ',:2');
+	
+	test.equal(myparser.parse(), null);
+}
+
+exports['parse query with and body and point'] = function (test) {
+    var myparser = parser('?- a,b.');
+    var result = myparser.parse();
+    
+    test.ok(result);
+    test.ok(result.functor);
+    test.equal(result.functor.name, '?-');
+    test.equal(result.arity, 1);
+    test.equal(result.nvariables, 0);
+    test.equal(result.nanonymous, 0);
+    test.equal(result.signature, "?-:1");
+    test.ok(result.args);
+    test.ok(Array.isArray(result.args));
+    test.equal(result.args.length, 1);
+    test.equal(result.args[0].signature, ',:2');
+	
+	test.equal(myparser.parse(), null);
 }
