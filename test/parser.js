@@ -6,7 +6,7 @@ exports['parse atom'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.equal(result.name, 'a');
+    test.equal(result.name(), 'a');
 	
 	test.equal(myparser.parse(), null);
 }
@@ -16,7 +16,7 @@ exports['parse atom and point'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.equal(result.name, 'a');
+    test.equal(result.name(), 'a');
 	
 	test.equal(myparser.parse(), null);
 }
@@ -26,7 +26,7 @@ exports['parse atom with spaces'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.equal(result.name, 'a');
+    test.equal(result.name(), 'a');
 }
 
 exports['parse empty string as null'] = function (test) {
@@ -58,7 +58,7 @@ exports['parse structure with arity 1'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, 'a');
+    test.equal(result.functor.name(), 'a');
     test.equal(result.arity, 1);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -75,7 +75,7 @@ exports['parse structure with arity 2'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, 'a');
+    test.equal(result.functor.name(), 'a');
     test.equal(result.arity, 2);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -93,7 +93,7 @@ exports['parse and structure with two atoms'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, ',');
+    test.equal(result.functor.name(), ',');
     test.equal(result.arity, 2);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -101,8 +101,8 @@ exports['parse and structure with two atoms'] = function (test) {
     test.ok(result.args);
     test.ok(Array.isArray(result.args));
     test.equal(result.args.length, 2);
-    test.equal(result.args[0].name, 'a');
-    test.equal(result.args[1].name, 'b');
+    test.equal(result.args[0].name(), 'a');
+    test.equal(result.args[1].name(), 'b');
 }
 
 exports['parse and structure with two structures'] = function (test) {
@@ -111,7 +111,7 @@ exports['parse and structure with two structures'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, ',');
+    test.equal(result.functor.name(), ',');
     test.equal(result.arity, 2);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -129,7 +129,7 @@ exports['parse and structure with three structures'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, ',');
+    test.equal(result.functor.name(), ',');
     test.equal(result.arity, 3);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -148,7 +148,7 @@ exports['parse simple rule'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, ':-');
+    test.equal(result.functor.name(), ':-');
     test.equal(result.arity, 2);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -156,8 +156,8 @@ exports['parse simple rule'] = function (test) {
     test.ok(result.args);
     test.ok(Array.isArray(result.args));
     test.equal(result.args.length, 2);
-    test.equal(result.args[0].name, 'a');
-    test.equal(result.args[1].name, 'b');
+    test.equal(result.args[0].name(), 'a');
+    test.equal(result.args[1].name(), 'b');
 }
 
 exports['parse rule with and body'] = function (test) {
@@ -166,7 +166,7 @@ exports['parse rule with and body'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, ':-');
+    test.equal(result.functor.name(), ':-');
     test.equal(result.arity, 2);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -174,7 +174,7 @@ exports['parse rule with and body'] = function (test) {
     test.ok(result.args);
     test.ok(Array.isArray(result.args));
     test.equal(result.args.length, 2);
-    test.equal(result.args[0].name, 'a');
+    test.equal(result.args[0].name(), 'a');
     test.equal(result.args[1].signature, ',:2');
 }
 
@@ -184,7 +184,7 @@ exports['parse simple query'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, '?-');
+    test.equal(result.functor.name(), '?-');
     test.equal(result.arity, 1);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -192,7 +192,7 @@ exports['parse simple query'] = function (test) {
     test.ok(result.args);
     test.ok(Array.isArray(result.args));
     test.equal(result.args.length, 1);
-    test.equal(result.args[0].name, 'a');
+    test.equal(result.args[0].name(), 'a');
 }
 
 exports['parse query with and body'] = function (test) {
@@ -201,7 +201,7 @@ exports['parse query with and body'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, '?-');
+    test.equal(result.functor.name(), '?-');
     test.equal(result.arity, 1);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);
@@ -220,7 +220,7 @@ exports['parse query with and body and point'] = function (test) {
     
     test.ok(result);
     test.ok(result.functor);
-    test.equal(result.functor.name, '?-');
+    test.equal(result.functor.name(), '?-');
     test.equal(result.arity, 1);
     test.equal(result.nvariables, 0);
     test.equal(result.nanonymous, 0);

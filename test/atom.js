@@ -11,7 +11,7 @@ exports['atom as a function'] = function (test) {
 exports['create atom with name'] = function (test) {
     var atomfoo = atom('foo');
     test.ok(atomfoo);
-    test.equal(atomfoo.name, 'foo');
+    test.equal(atomfoo.name(), 'foo');
     test.equal(atomfoo.asString(), 'foo');
 }
 
@@ -66,6 +66,6 @@ exports['match with variable'] = function (test) {
     test.ok(atomfoo.match(varx, bindings));
     var value = bindings.get(0);
     test.ok(value);
-    test.equal(value.name, 'foo');
+    test.equal(value.name(), 'foo');
 }
 
