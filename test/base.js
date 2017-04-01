@@ -96,7 +96,7 @@ exports['query using a variable'] = function (test) {
     test.ok(result);
     test.equal(typeof result, 'object');
     test.ok(result.X);
-    test.equal(result.X.name, 'b');
+    test.equal(result.X.name(), 'b');
 }
 
 exports['query using a variable and repeated callback'] = function (test) {
@@ -120,6 +120,6 @@ exports['query using a variable and repeated callback'] = function (test) {
     });
 
     test.equal(results.length, 2);
-    test.equal(results[0].X.name, 'b');
-    test.equal(results[1].X.name, 'c');
+    test.equal(results[0].X.name(), 'b');
+    test.equal(results[1].X.name(), 'c');
 }

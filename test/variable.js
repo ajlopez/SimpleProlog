@@ -11,25 +11,25 @@ exports['variable as function'] = function (test) {
 exports['create variable'] = function (test) {
     var result = variable('X');
     test.ok(result);
-    test.equal(result.name, 'X');
+    test.equal(result.name(), 'X');
     test.equal(result.asString(), 'X');
-    test.equal(result.variable, true);
-    test.equal(result.offset, undefined);
+    test.equal(result.variable(), true);
+    test.equal(result.offset(), undefined);
 }
 
 exports['create variable with offset'] = function (test) {
     var result = variable('X', 10);
     test.ok(result);
-    test.equal(result.name, 'X');
+    test.equal(result.name(), 'X');
     test.equal(result.asString(), 'X');
-    test.equal(result.variable, true);
-    test.equal(result.offset, 10);
+    test.equal(result.variable(), true);
+    test.equal(result.offset(), 10);
 }
 
 exports['unbound variable match atom'] = function (test) {
     var varx = variable('X', 0);
     test.ok(varx);
-    test.strictEqual(varx.offset, 0);
+    test.strictEqual(varx.offset(), 0);
     var bindings = binding(1);
     var atomx = atom('x');
     test.equal(varx.match(atomx, bindings), true);

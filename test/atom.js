@@ -13,6 +13,7 @@ exports['create atom with name'] = function (test) {
     test.ok(atomfoo);
     test.equal(atomfoo.name(), 'foo');
     test.equal(atomfoo.asString(), 'foo');
+	test.equal(atomfoo.variable(), false);
 }
 
 exports['match atom with same name'] = function (test) {
@@ -61,7 +62,7 @@ exports['no match with true'] = function (test) {
 exports['match with variable'] = function (test) {
     var atomfoo = atom('foo');
     var bindings = binding(1);
-    var varx = variable('X');
+    var varx = variable('X', 0);
     varx.offset = 0;
     test.ok(atomfoo.match(varx, bindings));
     var value = bindings.get(0);

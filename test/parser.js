@@ -49,7 +49,7 @@ exports['parse variable'] = function (test) {
     
     test.ok(result);
     test.ok(result.variable);
-    test.equal(result.name, 'X');
+    test.equal(result.name(), 'X');
 }
 
 exports['parse structure with arity 1'] = function (test) {
