@@ -27,9 +27,8 @@ exports['create variable with offset'] = function (test) {
 }
 
 exports['unbound variable match atom'] = function (test) {
-    var varx = variable('X', 0);
+    var varx = variable('X');
     test.ok(varx);
-    test.strictEqual(varx.offset(), 0);
     var bindings = binding(1);
     var atomx = atom('x');
     test.equal(varx.match(atomx, bindings), true);
@@ -40,7 +39,7 @@ exports['unbound variable match atom'] = function (test) {
 }
 
 exports['bound variable does not match other atom'] = function (test) {
-    var varx = variable('X', 0);
+    var varx = variable('X');
     var atomx = atom('x');
     var bindings = binding(1);
     varx.match(atomx, bindings);
@@ -54,7 +53,7 @@ exports['bound variable does not match other atom'] = function (test) {
 }
 
 exports['bound variable match atom with same name'] = function (test) {
-    var varx = variable('X', 0);
+    var varx = variable('X');
     var atomx = atom('x');
     var bindings = binding(1);
     varx.match(atomx, bindings);
@@ -68,8 +67,8 @@ exports['bound variable match atom with same name'] = function (test) {
 }
 
 exports['unbound variables match'] = function (test) {
-    var varx = variable('X', 0);
-    var vary = variable('Y', 1);
+    var varx = variable('X');
+    var vary = variable('Y');
     var bindings = binding(2);
     test.equal(varx.match(vary, bindings), true);
     test.strictEqual(bindings.get(1), varx);

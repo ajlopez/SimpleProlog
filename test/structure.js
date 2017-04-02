@@ -164,7 +164,7 @@ exports['structure with variable match structure with atom'] = function (test) {
     test.ok(result);
     var value = bindings.get(0);
     test.ok(value);
-    test.equal(value.name, 'b');
+    test.equal(value.name(), 'b');
 }
 
 exports['structure with atom match structure with variable'] = function (test) {
@@ -175,7 +175,7 @@ exports['structure with atom match structure with variable'] = function (test) {
     test.ok(result);
     var value = bindings.get(0);
     test.ok(value);
-    test.equal(value.name, 'b');
+    test.equal(value.name(), 'b');
 }
 
 exports['structure with variables don\'t match'] = function (test) {
