@@ -134,13 +134,13 @@ exports['structure with structures with variables'] = function (test) {
 
 exports['variables annotated with offset in a structure'] = function (test) {
     var variablex = variable('X');
-    var variablex2 = variable('X');
     var variabley = variable('Y');
+    var variablex2 = variable('X');
     var structure1 = structure(atom('a'), structure(atom('b'), variablex), structure(atom('c'), variabley), structure(atom('d'), variablex2));
 
-    test.equal(variablex.offset, 0);
-    test.equal(variabley.offset, 1);
-    test.equal(variablex2.offset, 0);
+    test.equal(variablex.offset(), 0);
+    test.equal(variabley.offset(), 1);
+    test.equal(variablex2.offset(), 0);
 }
 
 exports['anonymous variables counted and annotated with offset'] = function (test) {
@@ -151,9 +151,9 @@ exports['anonymous variables counted and annotated with offset'] = function (tes
 
     test.equal(structure1.nvariables, 0);
     test.equal(structure1.nanonymous, 3);
-    test.equal(anon1.offset, 0);
-    test.equal(anon2.offset, 1);
-    test.equal(anon3.offset, 2);
+    test.equal(anon1.offset(), 0);
+    test.equal(anon2.offset(), 1);
+    test.equal(anon3.offset(), 2);
 }
 
 exports['structure with variable match structure with atom'] = function (test) {
@@ -179,8 +179,10 @@ exports['structure with atom match structure with variable'] = function (test) {
 }
 
 exports['structure with variables don\'t match'] = function (test) {
+	var varx = variable('X');
+	var vary = variable('Y');
     var structure1 = structure(atom('a'), [1, 2, 3]);
-    var structure1xy = structure(atom('a'), [variable('X'), variable('Y'), variable('Y')]);
+    var structure1xy = structure(atom('a'), [varx, vary, vary]);
     var bindings = binding(2);
     test.equal(structure1xy.match(structure1, bindings), false);
     test.equal(bindings.get(0), null);
@@ -190,7 +192,6 @@ exports['structure with variables don\'t match'] = function (test) {
 exports['structure match variable'] = function (test) {
     var structure1 = structure(atom('a'), 1, 2, 3);
     var varx = variable('X');
-    varx.offset = 0;
     var bindings = binding(1);
     test.equal(structure1.match(varx, bindings), true);
     test.strictEqual(bindings.get(0), structure1);
@@ -201,8 +202,6 @@ exports['bound variables that not matches'] = function (test) {
     var vary = variable('Y');
     var structure1 = structure(atom('a'), varx, vary, varx);
     var structure2 = structure(atom('a'), structure(atom('b'), 1), structure(atom('c'), 2), vary);
-    varx.offset = 0;
-    vary.offset = 1;
     var bindings = binding(2);
     test.equal(structure1.match(structure2, bindings), false);
     test.equal(bindings.get(0), null);
@@ -214,8 +213,6 @@ exports['match structures with cycles'] = function (test) {
     var vary = variable('Y');
     var structure1 = structure(atom('a'), varx, vary);
     var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('c'), varx));
-    varx.offset = 0;
-    vary.offset = 1;
     var bindings = binding(2);
     test.equal(structure1.match(structure2, bindings), true);
     test.ok(bindings.get(0));
@@ -227,8 +224,6 @@ exports['match variables with cycles'] = function (test) {
     var vary = variable('Y');
     var structure1 = structure(atom('a'), varx, vary, varx);
     var structure2 = structure(atom('a'), structure(atom('b'), varx), structure(atom('b'), vary), vary);
-    varx.offset = 0;
-    vary.offset = 1;
     var bindings = binding(2);
     test.equal(structure1.match(structure2, bindings), true);
     test.ok(bindings.get(0));
@@ -240,8 +235,6 @@ exports['match variables with cross cycles'] = function (test) {
     var vary = variable('Y');
     var structure1 = structure(atom('a'), varx, vary, varx);
     var structure2 = structure(atom('a'), structure(atom('b'), vary), structure(atom('b'), varx), vary);
-    varx.offset = 0;
-    vary.offset = 1;
     var bindings = binding(2);
     test.equal(structure1.match(structure2, bindings), true);
     test.ok(bindings.get(0));
