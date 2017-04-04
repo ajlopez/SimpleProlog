@@ -14,7 +14,7 @@ exports['structure with arguments'] = function (test) {
     test.ok(result);
     test.ok(result.functor);
     test.equal(result.functor.asString(), 'a');
-    test.equal(result.arity, 2);
+    test.equal(result.arity(), 2);
     test.equal(result.asString(), 'a(1, 2)');
     test.equal(result.signature, 'a:2');
 }
@@ -24,7 +24,7 @@ exports['structure with atoms as arguments'] = function (test) {
     test.ok(result);
     test.ok(result.functor);
     test.equal(result.functor.asString(), 'a');
-    test.equal(result.arity, 3);
+    test.equal(result.arity(), 3);
     test.equal(result.asString(), 'a(b, c, d)');
     test.equal(result.signature, 'a:3');
 }
@@ -34,7 +34,7 @@ exports['structure with only functor'] = function (test) {
     test.ok(result);
     test.ok(result.functor);
     test.equal(result.functor.asString(), 'a');
-    test.equal(result.arity, 0);
+    test.equal(result.arity(), 0);
     test.equal(result.asString(), 'a()');
     test.equal(result.signature, 'a:0');
 }
