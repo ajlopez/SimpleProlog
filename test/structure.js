@@ -73,46 +73,47 @@ exports['structure has nvariables, nanonymous == 0'] = function (test) {
     var structure1 = structure(atom('a'), [2, atom('b')]);
     test.equal(structure1.nvariables(), 0);
     test.equal(structure1.nanonymous(), 0);
-    test.equal(structure.variables, null);
+    test.ok(structure1.variables);
+    test.equal(structure1.variables(), 0);
 }
 
 exports['structure with one variable'] = function (test) {
     var structure1 = structure(atom('a'), [2, variable('X')]);
     test.equal(structure1.nvariables(), 1);
     test.equal(structure1.nanonymous(), 0);
-    test.ok(structure1.variables);
-    test.equal(structure1.variables.length, 1);
-    test.equal(structure1.variables[0], 'X');
+    test.ok(structure1.variables());
+    test.equal(structure1.variables().length, 1);
+    test.equal(structure1.variables()[0], 'X');
 }
 
 exports['structure with two variable'] = function (test) {
     var structure1 = structure(atom('a'), [variable('Y'), variable('X')]);
     test.equal(structure1.nvariables(), 2);
     test.equal(structure1.nanonymous(), 0);
-    test.ok(structure1.variables);
-    test.equal(structure1.variables.length, 2);
-    test.equal(structure1.variables[0], 'Y');
-    test.equal(structure1.variables[1], 'X');
+    test.ok(structure1.variables());
+    test.equal(structure1.variables().length, 2);
+    test.equal(structure1.variables()[0], 'Y');
+    test.equal(structure1.variables()[1], 'X');
 }
 
 exports['structure with functor variable'] = function (test) {
     var structure1 = structure(variable('Z'), [variable('Y'), variable('X')]);
     test.equal(structure1.nvariables(), 3);
     test.equal(structure1.nanonymous(), 0);
-    test.ok(structure1.variables);
-    test.equal(structure1.variables.length, 3);
-    test.equal(structure1.variables[0], 'Z');
-    test.equal(structure1.variables[1], 'Y');
-    test.equal(structure1.variables[2], 'X');
+    test.ok(structure1.variables());
+    test.equal(structure1.variables().length, 3);
+    test.equal(structure1.variables()[0], 'Z');
+    test.equal(structure1.variables()[1], 'Y');
+    test.equal(structure1.variables()[2], 'X');
 }
 
 exports['structure with repeated variable'] = function (test) {
     var structure1 = structure(atom('a'), [variable('X'), variable('X')]);
     test.equal(structure1.nvariables(), 1);
     test.equal(structure1.nanonymous(), 0);
-    test.ok(structure1.variables);
-    test.equal(structure1.variables.length, 1);
-    test.equal(structure1.variables[0], 'X');
+    test.ok(structure1.variables());
+    test.equal(structure1.variables().length, 1);
+    test.equal(structure1.variables()[0], 'X');
 }
 
 exports['structure with items as arguments in constructor'] = function (test) {
@@ -126,10 +127,10 @@ exports['structure with structures with variables'] = function (test) {
     var structure1 = structure(atom('a'), structure(atom('b'), variable('X')), structure(atom('c'), variable('Y')), structure(atom('d'), variable('X')));
     test.equal(structure1.nvariables(), 2);
     test.equal(structure1.nanonymous(), 0);
-    test.ok(structure1.variables);
-    test.equal(structure1.variables.length, 2);
-    test.equal(structure1.variables[0], 'X');
-    test.equal(structure1.variables[1], 'Y');
+    test.ok(structure1.variables());
+    test.equal(structure1.variables().length, 2);
+    test.equal(structure1.variables()[0], 'X');
+    test.equal(structure1.variables()[1], 'Y');
 }
 
 exports['variables annotated with offset in a structure'] = function (test) {
