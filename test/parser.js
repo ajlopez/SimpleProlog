@@ -57,8 +57,8 @@ exports['parse structure with arity 1'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), 'a');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
     test.equal(result.arity(), 1);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -74,8 +74,8 @@ exports['parse structure with arity 2'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), 'a');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
     test.equal(result.arity(), 2);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -92,8 +92,8 @@ exports['parse and structure with two atoms'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), ',');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), ',');
     test.equal(result.arity(), 2);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -110,8 +110,8 @@ exports['parse and structure with two structures'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), ',');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), ',');
     test.equal(result.arity(), 2);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -128,8 +128,8 @@ exports['parse and structure with three structures'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), ',');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), ',');
     test.equal(result.arity(), 3);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -147,8 +147,8 @@ exports['parse simple rule'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), ':-');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), ':-');
     test.equal(result.arity(), 2);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -165,8 +165,8 @@ exports['parse rule with and body'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), ':-');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), ':-');
     test.equal(result.arity(), 2);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -183,8 +183,8 @@ exports['parse simple query'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), '?-');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), '?-');
     test.equal(result.arity(), 1);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -200,8 +200,8 @@ exports['parse query with and body'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), '?-');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), '?-');
     test.equal(result.arity(), 1);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);
@@ -219,8 +219,8 @@ exports['parse query with and body and point'] = function (test) {
     var result = myparser.parse();
     
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.name(), '?-');
+    test.ok(result.functor());
+    test.equal(result.functor().name(), '?-');
     test.equal(result.arity(), 1);
     test.equal(result.nvariables(), 0);
     test.equal(result.nanonymous(), 0);

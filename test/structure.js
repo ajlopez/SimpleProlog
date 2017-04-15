@@ -12,8 +12,8 @@ exports['structure as a function'] = function (test) {
 exports['structure with arguments'] = function (test) {
     var result = structure(atom('a'), [1, 2]);
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.asString(), 'a');
+    test.ok(result.functor());
+    test.equal(result.functor().asString(), 'a');
     test.equal(result.arity(), 2);
     test.equal(result.asString(), 'a(1, 2)');
     test.equal(result.signature(), 'a:2');
@@ -22,8 +22,8 @@ exports['structure with arguments'] = function (test) {
 exports['structure with atoms as arguments'] = function (test) {
     var result = structure(atom('a'), [atom('b'), atom('c'), atom('d')]);
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.asString(), 'a');
+    test.ok(result.functor());
+    test.equal(result.functor().asString(), 'a');
     test.equal(result.arity(), 3);
     test.equal(result.asString(), 'a(b, c, d)');
     test.equal(result.signature(), 'a:3');
@@ -32,8 +32,8 @@ exports['structure with atoms as arguments'] = function (test) {
 exports['structure with only functor'] = function (test) {
     var result = structure(atom('a'));
     test.ok(result);
-    test.ok(result.functor);
-    test.equal(result.functor.asString(), 'a');
+    test.ok(result.functor());
+    test.equal(result.functor().asString(), 'a');
     test.equal(result.arity(), 0);
     test.equal(result.asString(), 'a()');
     test.equal(result.signature(), 'a:0');
