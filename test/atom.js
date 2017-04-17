@@ -14,6 +14,7 @@ exports['create atom with name'] = function (test) {
     test.equal(atomfoo.name(), 'foo');
     test.equal(atomfoo.asString(), 'foo');
 	test.equal(atomfoo.variable(), false);
+	test.equal(atomfoo.atom(), true);
 }
 
 exports['match atom with same name'] = function (test) {
