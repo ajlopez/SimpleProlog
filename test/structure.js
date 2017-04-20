@@ -14,6 +14,7 @@ exports['structure with arguments'] = function (test) {
     test.ok(result);
     test.ok(result.functor());
 	test.equal(result.atom(), false);
+	test.equal(result.variable(), false);
     test.equal(result.functor().asString(), 'a');
     test.equal(result.arity(), 2);
     test.equal(result.asString(), 'a(1, 2)');
