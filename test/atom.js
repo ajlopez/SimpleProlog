@@ -13,6 +13,7 @@ exports['create atom with name'] = function (test) {
     test.ok(atomfoo);
     test.equal(atomfoo.name(), 'foo');
     test.equal(atomfoo.asString(), 'foo');
+	test.equal(atomfoo.structure(), false);
 	test.equal(atomfoo.variable(), false);
 	test.equal(atomfoo.atom(), true);
 }
