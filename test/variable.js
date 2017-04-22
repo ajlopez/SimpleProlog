@@ -14,6 +14,7 @@ exports['create variable'] = function (test) {
     test.equal(result.name(), 'X');
     test.equal(result.asString(), 'X');
     test.equal(result.variable(), true);
+    test.equal(result.structure(), false);
 	test.equal(result.atom(), false);
     test.equal(result.offset(), undefined);
 }
