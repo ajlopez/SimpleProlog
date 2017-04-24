@@ -18,3 +18,18 @@ exports['structure is not a variable'] = function (test) {
 	test.equal(utils.isVariable(structure1), false);
 };
 
+exports['variable is not an atom'] = function (test) {
+	var var1 = variable('X');
+	test.equal(utils.isAtom(var1), false);
+};
+
+exports['atom is an atom'] = function (test) {
+	var atom1 = atom('a');
+	test.equal(utils.isAtom(atom1), true);
+};
+
+exports['structure is not an atom'] = function (test) {
+	var structure1 = structure(atom('a'), variable('X'));;
+	test.equal(utils.isAtom(structure1), false);
+};
+
