@@ -1,5 +1,5 @@
 
-var binding = require('../lib/binding');
+const binding = require('../lib/binding');
     
 exports['binding as a function'] = function (test) {
     test.ok(binding);
@@ -7,9 +7,12 @@ exports['binding as a function'] = function (test) {
 }
 
 exports['create binding'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
+    
     test.ok(result);
-    var current = result.current();
+    
+    const current = result.current();
+    
     test.ok(current);
     test.equal(typeof current, 'object');
     test.equal(current.size, 2);
@@ -19,14 +22,14 @@ exports['create binding'] = function (test) {
 }
 
 exports['strict null'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
     
     test.strictEqual(result.get(0), null);
     test.strictEqual(result.get(1), null);
 }
 
 exports['raise if invalid offset'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
     
     test.throws(
         function() {
@@ -44,7 +47,7 @@ exports['raise if invalid offset'] = function (test) {
 }
 
 exports['set and get'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
 
     result.set(0, 1);
     result.set(1, "foo");
@@ -54,7 +57,7 @@ exports['set and get'] = function (test) {
 }
 
 exports['raise if invalid offset in set'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
     
     test.throws(
         function() {
@@ -72,14 +75,15 @@ exports['raise if invalid offset in set'] = function (test) {
 }
 
 exports['grows'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
 
     result.set(0, 1);
     result.set(1, "foo");
     
     result.grow(3);
 
-    var current = result.current();
+    const current = result.current();
+    
     test.equal(current.size, 5);
     test.equal(result.get(0), 1);
     test.equal(result.get(1), "foo");
@@ -89,7 +93,7 @@ exports['grows'] = function (test) {
 }
 
 exports['reset'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
 
     result.set(0, 1);
     result.set(1, "foo");
@@ -105,7 +109,7 @@ exports['reset'] = function (test) {
 }
 
 exports['raise if reset receives invalid size argument'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
 
     result.set(0, 1);
     result.set(1, "foo");
@@ -126,7 +130,7 @@ exports['raise if reset receives invalid size argument'] = function (test) {
 }
 
 exports['raise if reset receives invalid nbindings argument'] = function (test) {
-    var result = binding(2);
+    const result = binding(2);
 
     result.set(0, 1);
     result.set(1, "foo");
@@ -147,11 +151,14 @@ exports['raise if reset receives invalid nbindings argument'] = function (test) 
 }
 
 exports['Reset bindings'] = function (test) {
-    var bindings = binding(3);
+    const bindings = binding(3);
+    
     bindings.set(0, 1);
     bindings.set(1, 2);
     bindings.set(2, 3);
-    var current = bindings.current();
+    
+    const current = bindings.current();
+    
     test.ok(current);
     test.equal(current.size, 3);
     test.equal(current.nbindings, 3);
@@ -159,8 +166,11 @@ exports['Reset bindings'] = function (test) {
     test.equal(bindings.get(0), null);
     test.equal(bindings.get(1), null);
     test.equal(bindings.get(2), null);
-    var current = bindings.current();
-    test.ok(current);
-    test.equal(current.size, 3);
-    test.equal(current.nbindings, 0);
+    
+    const current2 = bindings.current();
+    
+    test.ok(current2);
+    test.equal(current2.size, 3);
+    test.equal(current2.nbindings, 0);
 }
+
