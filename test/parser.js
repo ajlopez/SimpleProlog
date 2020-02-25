@@ -1,9 +1,9 @@
 
-var parser = require('../lib/parser');
+const parser = require('../lib/parser');
 
 exports['parse atom'] = function (test) {
-    var myparser = parser('a');
-    var result = myparser.parse();
+    const myparser = parser('a');
+    const result = myparser.parse();
     
     test.ok(result);
     test.equal(result.name(), 'a');
@@ -12,8 +12,8 @@ exports['parse atom'] = function (test) {
 }
 
 exports['parse atom and point'] = function (test) {
-    var myparser = parser('a.');
-    var result = myparser.parse();
+    const myparser = parser('a.');
+    const result = myparser.parse();
     
     test.ok(result);
     test.equal(result.name(), 'a');
@@ -22,30 +22,30 @@ exports['parse atom and point'] = function (test) {
 }
 
 exports['parse atom with spaces'] = function (test) {
-    var myparser = parser(' a   ');
-    var result = myparser.parse();
+    const myparser = parser(' a   ');
+    const result = myparser.parse();
     
     test.ok(result);
     test.equal(result.name(), 'a');
 }
 
 exports['parse empty string as null'] = function (test) {
-    var myparser = parser('');
-    var result = myparser.parse();
+    const myparser = parser('');
+    const result = myparser.parse();
     
     test.equal(result, null);
 }
 
 exports['parse null as null'] = function (test) {
-    var myparser = parser(null);
-    var result = myparser.parse();
+    const myparser = parser(null);
+    const result = myparser.parse();
     
     test.equal(result, null);
 }
 
 exports['parse variable'] = function (test) {
-    var myparser = parser('X');
-    var result = myparser.parse();
+    const myparser = parser('X');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.variable);
@@ -53,8 +53,8 @@ exports['parse variable'] = function (test) {
 }
 
 exports['parse structure with arity 1'] = function (test) {
-    var myparser = parser('a(1)');
-    var result = myparser.parse();
+    const myparser = parser('a(1)');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -70,8 +70,8 @@ exports['parse structure with arity 1'] = function (test) {
 }
 
 exports['parse structure with arity 2'] = function (test) {
-    var myparser = parser('a(1,2)');
-    var result = myparser.parse();
+    const myparser = parser('a(1,2)');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -88,8 +88,8 @@ exports['parse structure with arity 2'] = function (test) {
 }
 
 exports['parse and structure with two atoms'] = function (test) {
-    var myparser = parser('a,b');
-    var result = myparser.parse();
+    const myparser = parser('a,b');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -106,8 +106,8 @@ exports['parse and structure with two atoms'] = function (test) {
 }
 
 exports['parse and structure with two structures'] = function (test) {
-    var myparser = parser('a(1),b(2,3)');
-    var result = myparser.parse();
+    const myparser = parser('a(1),b(2,3)');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -124,8 +124,8 @@ exports['parse and structure with two structures'] = function (test) {
 }
 
 exports['parse and structure with three structures'] = function (test) {
-    var myparser = parser('a(1),b(2,3),c(4,5,6)');
-    var result = myparser.parse();
+    const myparser = parser('a(1),b(2,3),c(4,5,6)');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -143,8 +143,8 @@ exports['parse and structure with three structures'] = function (test) {
 }
 
 exports['parse simple rule'] = function (test) {
-    var myparser = parser('a :- b');
-    var result = myparser.parse();
+    const myparser = parser('a :- b');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -161,8 +161,8 @@ exports['parse simple rule'] = function (test) {
 }
 
 exports['parse rule with and body'] = function (test) {
-    var myparser = parser('a :- b,c');
-    var result = myparser.parse();
+    const myparser = parser('a :- b,c');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -179,8 +179,8 @@ exports['parse rule with and body'] = function (test) {
 }
 
 exports['parse simple query'] = function (test) {
-    var myparser = parser('?- a');
-    var result = myparser.parse();
+    const myparser = parser('?- a');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -196,8 +196,8 @@ exports['parse simple query'] = function (test) {
 }
 
 exports['parse query with and body'] = function (test) {
-    var myparser = parser('?- a,b');
-    var result = myparser.parse();
+    const myparser = parser('?- a,b');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
@@ -215,8 +215,8 @@ exports['parse query with and body'] = function (test) {
 }
 
 exports['parse query with and body and point'] = function (test) {
-    var myparser = parser('?- a,b.');
-    var result = myparser.parse();
+    const myparser = parser('?- a,b.');
+    const result = myparser.parse();
     
     test.ok(result);
     test.ok(result.functor());
