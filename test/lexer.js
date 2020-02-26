@@ -1,12 +1,15 @@
 
-var lexer = require('../lib/lexer');
+const lexer = require('../lib/lexer');
 
-var TokenType = lexer.TokenType;
+const TokenType = lexer.TokenType;
     
 exports['next token'] = function (test) {
-    var mylexer = lexer('a');
+    const mylexer = lexer('a');
+    
     test.ok(mylexer);
-    var token = mylexer.nextToken();
+    
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
@@ -15,9 +18,12 @@ exports['next token'] = function (test) {
 }
 
 exports['get bang as atom'] = function (test) {
-    var mylexer = lexer('!');
+    const mylexer = lexer('!');
+    
     test.ok(mylexer);
-    var token = mylexer.nextToken();
+    
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '!');
     test.equal(token.type, TokenType.Atom);
@@ -26,9 +32,12 @@ exports['get bang as atom'] = function (test) {
 }
 
 exports['next token skipping percent comment'] = function (test) {
-    var mylexer = lexer('a % this is a comment');
+    const mylexer = lexer('a % this is a comment');
+    
     test.ok(mylexer);
-    var token = mylexer.nextToken();
+    
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
@@ -37,26 +46,32 @@ exports['next token skipping percent comment'] = function (test) {
 }
 
 exports['next token skipping multi line comment'] = function (test) {
-    var mylexer = lexer('a /* this is a\ncomment */ b');
+    const mylexer = lexer('a /* this is a\ncomment */ b');
+    
     test.ok(mylexer);
 	
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
     
-    var token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'b');
-    test.equal(token.type, TokenType.Atom);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, 'b');
+    test.equal(token2.type, TokenType.Atom);
 
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['next token skipping initial percent comment'] = function (test) {
-    var mylexer = lexer('% this is a comment\na');
+    const mylexer = lexer('% this is a comment\na');
+    
     test.ok(mylexer);
-    var token = mylexer.nextToken();
+    
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
@@ -65,9 +80,12 @@ exports['next token skipping initial percent comment'] = function (test) {
 }
 
 exports['next token skipping initial percent comment ending with carriage return'] = function (test) {
-    var mylexer = lexer('% this is a comment\ra');
+    const mylexer = lexer('% this is a comment\ra');
+    
     test.ok(mylexer);
-    var token = mylexer.nextToken();
+    
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
@@ -76,23 +94,28 @@ exports['next token skipping initial percent comment ending with carriage return
 }
 
 exports['get two tokens'] = function (test) {
-    var mylexer = lexer('a b');
+    const mylexer = lexer('a b');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'b');
-    test.equal(token.type, TokenType.Atom);
+    
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, 'b');
+    test.equal(token2.type, TokenType.Atom);
+    
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['atom with underscore'] = function (test) {
-    var mylexer = lexer('parent_child');
+    const mylexer = lexer('parent_child');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'parent_child');
     test.equal(token.type, TokenType.Atom);
@@ -100,9 +123,10 @@ exports['atom with underscore'] = function (test) {
 }
 
 exports['get an integer'] = function (test) {
-    var mylexer = lexer('  123  ');
+    const mylexer = lexer('  123  ');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '123');
     test.equal(token.type, TokenType.Integer);
@@ -110,75 +134,88 @@ exports['get an integer'] = function (test) {
 }
 
 exports['get an integer and atom'] = function (test) {
-    var mylexer = lexer('123bar');
+    const mylexer = lexer('123bar');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '123');
     test.equal(token.type, TokenType.Integer);
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'bar');
-    test.equal(token.type, TokenType.Atom);
+    
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, 'bar');
+    test.equal(token2.type, TokenType.Atom);
+    
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['get ( ) , . as separators'] = function (test) {
-    var mylexer = lexer('(),.');
+    const mylexer = lexer('(),.');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '(');
     test.equal(token.type, TokenType.Separator);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, ')');
-    test.equal(token.type, TokenType.Separator);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, ')');
+    test.equal(token2.type, TokenType.Separator);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, ',');
-    test.equal(token.type, TokenType.Separator);
+    const token3 = mylexer.nextToken();
+    
+    test.ok(token3);
+    test.equal(token3.value, ',');
+    test.equal(token3.type, TokenType.Separator);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, '.');
-    test.equal(token.type, TokenType.Separator);
+    const token4 = mylexer.nextToken();
+    
+    test.ok(token4);
+    test.equal(token4.value, '.');
+    test.equal(token4.type, TokenType.Separator);
 
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['get atom, separator, integer, separator'] = function (test) {
-    var mylexer = lexer('a(1)');
+    const mylexer = lexer('a(1)');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, '(');
-    test.equal(token.type, TokenType.Separator);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, '(');
+    test.equal(token2.type, TokenType.Separator);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, '1');
-    test.equal(token.type, TokenType.Integer);
+    const token3 = mylexer.nextToken();
+    
+    test.ok(token3);
+    test.equal(token3.value, '1');
+    test.equal(token3.type, TokenType.Integer);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, ')');
-    test.equal(token.type, TokenType.Separator);
+    const token4 = mylexer.nextToken();
+    
+    test.ok(token4);
+    test.equal(token4.value, ')');
+    test.equal(token4.type, TokenType.Separator);
 
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['get variable'] = function (test) {
-    var mylexer = lexer('X');
+    const mylexer = lexer('X');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'X');
     test.equal(token.type, TokenType.Variable);
@@ -187,9 +224,10 @@ exports['get variable'] = function (test) {
 }
 
 exports['get variable starting with underscore'] = function (test) {
-    var mylexer = lexer('_a');
+    const mylexer = lexer('_a');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '_a');
     test.equal(token.type, TokenType.Variable);
@@ -198,9 +236,10 @@ exports['get variable starting with underscore'] = function (test) {
 }
 
 exports['get variable starting with underscores'] = function (test) {
-    var mylexer = lexer('_a_child');
+    const mylexer = lexer('_a_child');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '_a_child');
     test.equal(token.type, TokenType.Variable);
@@ -209,9 +248,10 @@ exports['get variable starting with underscores'] = function (test) {
 }
 
 exports['get anonymous variable'] = function (test) {
-    var mylexer = lexer('_');
+    const mylexer = lexer('_');
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '_');
     test.equal(token.type, TokenType.Variable);
@@ -220,23 +260,25 @@ exports['get anonymous variable'] = function (test) {
 }
 
 exports['get quoted atoms'] = function (test) {
-    var mylexer = lexer("'X' 'to be or not to be'");
+    const mylexer = lexer("'X' 'to be or not to be'");
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'X');
     test.equal(token.type, TokenType.Atom);
 
-    var token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'to be or not to be');
-    test.equal(token.type, TokenType.Atom);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, 'to be or not to be');
+    test.equal(token2.type, TokenType.Atom);
 
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['get unclosed quoted atom'] = function (test) {
-    var mylexer = lexer("'X");
+    const mylexer = lexer("'X");
 
     test.throws(
         function() {
@@ -250,9 +292,10 @@ exports['get unclosed quoted atom'] = function (test) {
 }
 
 exports['get :- as an atom'] = function (test) {
-    var mylexer = lexer(":-")
+    const mylexer = lexer(":-")
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, ':-');
     test.equal(token.type, TokenType.Atom);
@@ -261,9 +304,10 @@ exports['get :- as an atom'] = function (test) {
 }
 
 exports['get ?- as an atom'] = function (test) {
-    var mylexer = lexer("?-")
+    const mylexer = lexer("?-")
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, '?-');
     test.equal(token.type, TokenType.Atom);
@@ -272,43 +316,49 @@ exports['get ?- as an atom'] = function (test) {
 }
 
 exports['first rule with atoms'] = function (test) {
-    var mylexer = lexer("a:-b");
+    const mylexer = lexer("a:-b");
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'a');
     test.equal(token.type, TokenType.Atom);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, ':-');
-    test.equal(token.type, TokenType.Atom);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, ':-');
+    test.equal(token2.type, TokenType.Atom);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'b');
-    test.equal(token.type, TokenType.Atom);
+    const token3 = mylexer.nextToken();
+    
+    test.ok(token3);
+    test.equal(token3.value, 'b');
+    test.equal(token3.type, TokenType.Atom);
 
     test.equal(mylexer.nextToken(), null);
 }
 
 exports['first rule with variables'] = function (test) {
-    var mylexer = lexer("A:-B");
+    const mylexer = lexer("A:-B");
 
-    var token = mylexer.nextToken();
+    const token = mylexer.nextToken();
+    
     test.ok(token);
     test.equal(token.value, 'A');
     test.equal(token.type, TokenType.Variable);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, ':-');
-    test.equal(token.type, TokenType.Atom);
+    const token2 = mylexer.nextToken();
+    
+    test.ok(token2);
+    test.equal(token2.value, ':-');
+    test.equal(token2.type, TokenType.Atom);
 
-    token = mylexer.nextToken();
-    test.ok(token);
-    test.equal(token.value, 'B');
-    test.equal(token.type, TokenType.Variable);
+    const token3 = mylexer.nextToken();
+    
+    test.ok(token3);
+    test.equal(token3.value, 'B');
+    test.equal(token3.type, TokenType.Variable);
 
     test.equal(mylexer.nextToken(), null);
 }
