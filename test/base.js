@@ -1,9 +1,8 @@
 
-var base = require('../lib/base'),
-    atom = require('../lib/atom'),
-    variable = require('../lib/variable'),
-    structure = require('../lib/structure');
-    assert = require('assert');
+const base = require('../lib/base');
+const atom = require('../lib/atom');
+const variable = require('../lib/variable');
+const structure = require('../lib/structure');
     
 exports['base as a function'] = function (test) {
     test.ok(base);
@@ -11,29 +10,32 @@ exports['base as a function'] = function (test) {
 }
 
 exports['query an empty base'] = function (test) {
-    var base1 = base();
-    var structure1 = structure(atom('a'));
+    const base1 = base();
+    const structure1 = structure(atom('a'));
+    
     test.equal(base1.query(structure1), false);
 }
 
 exports['assert and query'] = function (test) {
-    var base1 = base();
-    var structure1 = structure(atom('a'));
+    const base1 = base();
+    const structure1 = structure(atom('a'));
+    
     base1.assert(structure1);
     test.equal(base1.query(structure1), true);
 }
 
 exports['query unknown structure'] = function (test) {
-    var base1 = base();
+    const base1 = base();
 
-    var structure1 = structure(atom('b'), [1, 2]);
+    const structure1 = structure(atom('b'), [1, 2]);
     test.equal(base1.query(structure1), false);
 }
 
 exports['query known structure with callback'] = function (test) {
-    var base1 = base();
-    var count = 0;
-    var structure1 = structure(atom('a'));
+    const base1 = base();
+    let count = 0;
+    const structure1 = structure(atom('a'));
+    
     base1.assert(structure1);
     
     base1.query(structure1, function (err, result) {
@@ -46,9 +48,10 @@ exports['query known structure with callback'] = function (test) {
 }
 
 exports['query known structure with repeated callback'] = function (test) {
-    var base1 = base();
-    var count = 0;
-    var structure1 = structure(atom('b'), [1, 2]);
+    const base1 = base();
+    let count = 0;
+    const structure1 = structure(atom('b'), [1, 2]);
+    
     base1.assert(structure1);
 
     base1.query(structure1, function (err, result, next) {
@@ -69,9 +72,9 @@ exports['query known structure with repeated callback'] = function (test) {
 }
 
 exports['query unknown structure with callback'] = function (test) {
-    var base1 = base();
-    var count = 0;
-    var structure2 = structure(atom('b'), [1, 2]);
+    const base1 = base();
+    let count = 0;
+    const structure2 = structure(atom('b'), [1, 2]);
     
     base1.query(structure2, function (err, result) {
         test.ok(!err);
@@ -83,15 +86,16 @@ exports['query unknown structure with callback'] = function (test) {
 }
 
 exports['query using a variable'] = function (test) {
-    var base1 = base();
-    var structure1 = structure(atom('a'), atom('b'));
-    var structure2 = structure(atom('a'), atom('c'));
+    const base1 = base();
+    const structure1 = structure(atom('a'), atom('b'));
+    const structure2 = structure(atom('a'), atom('c'));
+    
     base1.assert(structure1);
     base1.assert(structure2);
 
-    var structurex = structure(atom('a'), variable('X'));
+    const structurex = structure(atom('a'), variable('X'));
 
-    var result = base1.query(structurex);
+    const result = base1.query(structurex);
 
     test.ok(result);
     test.equal(typeof result, 'object');
@@ -100,15 +104,16 @@ exports['query using a variable'] = function (test) {
 }
 
 exports['query using a variable and repeated callback'] = function (test) {
-    var base1 = base();
-    var structure1 = structure(atom('a'), atom('b'));
-    var structure2 = structure(atom('a'), atom('c'));
+    const base1 = base();
+    const structure1 = structure(atom('a'), atom('b'));
+    const structure2 = structure(atom('a'), atom('c'));
+    
     base1.assert(structure1);
     base1.assert(structure2);
     
-    var structurex = structure(atom('a'), variable('X'));
+    const structurex = structure(atom('a'), variable('X'));
 
-    var results = [];
+    const results = [];
 
     base1.query(structurex, function (err, result, next) {
         test.ok(!err);
