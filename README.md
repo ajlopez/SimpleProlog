@@ -34,6 +34,8 @@ TBD
 
 ## References
 
+- Programming in Prolog, using the ISO standard, fifth edition, an updated classic by Clocksin and Mellish
+
 TBD
 
 ## Contribution

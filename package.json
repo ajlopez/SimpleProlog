@@ -1,17 +1,28 @@
-{ "name": "simpleprolog"
-, "description": "SimpleProlog interpreter in JavaScript"
-, "keywords": [ "prolog", "javascript", "interpreter" ]
-, "version": "0.0.1alpha"
-, "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
-, "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleProlog.git" }
-, "main": "./lib/simpleprolog.js"
-, "engines": { "node": ">= 8.0.0" }
-, "scripts": {
+{
+  "name": "simpleprolog",
+  "description": "SimpleProlog interpreter in JavaScript",
+  "keywords": [
+    "prolog",
+    "javascript",
+    "interpreter"
+  ],
+  "version": "0.0.1alpha",
+  "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ajlopez/SimpleProlog.git"
+  },
+  "main": "./lib/simpleprolog.js",
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
     "test": "simpleunit ./test"
-  }
-, "dependencies": {
-  }
-, "devDependencies": {
+  },
+  "dependencies": {
+    "gelex": "0.0.7"
+  },
+  "devDependencies": {
     "simpleunit": "0.0.8"
   }
 }
