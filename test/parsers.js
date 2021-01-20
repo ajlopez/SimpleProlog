@@ -47,3 +47,24 @@ exports['parse variable with spaces'] = function (test) {
     test.equal(parser.parse('variable'), null);
 };
 
+exports['parse integer'] = function (test) {
+    const parser = parsers.parser('1');
+    
+    const result = parser.parse('integer');
+    
+    test.ok(result);
+    test.equal(result, 1);
+    
+    test.equal(parser.parse('integer'), null);
+};
+
+exports['parse variable with spaces'] = function (test) {
+    const parser = parsers.parser('  1   ');
+    
+    const result = parser.parse('integer');
+    
+    test.ok(result);
+    test.equal(result, 1);
+    
+    test.equal(parser.parse('integer'), null);
+};
