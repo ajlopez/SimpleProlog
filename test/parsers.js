@@ -68,3 +68,23 @@ exports['parse variable with spaces'] = function (test) {
     
     test.equal(parser.parse('integer'), null);
 };
+
+exports['parse structure with atom functor and no arguments'] = function (test) {
+    const parser = parsers.parser('a()');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 0);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:0");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 0);
+    
+    test.equal(parser.parse('structure'), null);
+};
+
