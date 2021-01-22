@@ -88,3 +88,127 @@ exports['parse structure with atom functor and no arguments'] = function (test) 
     test.equal(parser.parse('structure'), null);
 };
 
+exports['parse structure with atom functor and integer argument'] = function (test) {
+    const parser = parsers.parser('a(42)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:1");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 1);
+    test.equal(result.arguments()[0], 42);
+    
+    test.equal(parser.parse('structure'), null);
+};
+
+exports['parse structure with atom functor and atom argument'] = function (test) {
+    const parser = parsers.parser('a(b)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:1");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 1);
+    test.equal(result.arguments()[0].name(), 'b');
+    
+    test.equal(parser.parse('structure'), null);
+};
+
+exports['parse structure with atom functor and named variable argument'] = function (test) {
+    const parser = parsers.parser('a(X)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    test.equal(result.nvariables(), 1);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:1");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 1);
+    test.equal(result.arguments()[0].name(), 'X');
+    
+    test.equal(parser.parse('structure'), null);
+};
+
+exports['parse structure with atom functor and variable anonymous argument'] = function (test) {
+    const parser = parsers.parser('a(_)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 1);
+    test.equal(result.signature(), "a:1");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 1);
+    test.equal(result.arguments()[0].name(), '_');
+    
+    test.equal(parser.parse('structure'), null);
+};
+
+exports['parse structure with atom functor and two argument'] = function (test) {
+    const parser = parsers.parser('a(b, 42)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 2);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:2");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 2);
+    test.equal(result.arguments()[0].name(), 'b');
+    test.equal(result.arguments()[1], 42);
+    
+    test.equal(parser.parse('structure'), null);
+};
+
+exports['parse structure with atom functor and three argument'] = function (test) {
+    const parser = parsers.parser('a(b, 42, 1)');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 3);
+    test.equal(result.nvariables(), 0);
+    test.equal(result.nanonymous(), 0);
+    test.equal(result.signature(), "a:3");
+    test.ok(result.arguments());
+    test.ok(Array.isArray(result.arguments()));
+    test.equal(result.arguments().length, 3);
+    test.equal(result.arguments()[0].name(), 'b');
+    test.equal(result.arguments()[1], 42);
+    test.equal(result.arguments()[2], 1);
+    
+    test.equal(parser.parse('structure'), null);
+};
+
