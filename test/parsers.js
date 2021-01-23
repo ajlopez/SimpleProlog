@@ -212,3 +212,17 @@ exports['parse structure with atom functor and three argument'] = function (test
     test.equal(parser.parse('structure'), null);
 };
 
+exports['parse structure with atom functor and structure argument'] = function (test) {
+    const parser = parsers.parser('a(b(42))');
+    
+    const result = parser.parse('structure');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    
+    test.equal(result.asString(), 'a(b(42))');
+    
+    test.equal(parser.parse('structure'), null);
+};
