@@ -241,3 +241,15 @@ exports['parse structure as fact'] = function (test) {
     
     test.equal(parser.parse('fact'), null);
 };
+
+exports['parse rule with one structure'] = function (test) {
+    const parser = parsers.parser('mortal(X) :- greek(X)');
+    
+    const result = parser.parse('rule');
+    
+    test.ok(result);
+    
+    test.equal(result.asString(), ':-(mortal(X), greek(X))');
+    
+    test.equal(parser.parse('rule'), null);
+};
