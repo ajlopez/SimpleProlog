@@ -249,7 +249,7 @@ exports['parse rule with one structure'] = function (test) {
     
     test.ok(result);
     
-    test.equal(result.asString(), ':-(mortal(X), greek(X))');
+    test.equal(result.asString(), 'mortal(X) :- greek(X)');
     
     test.equal(parser.parse('rule'), null);
 };
