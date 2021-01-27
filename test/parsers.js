@@ -253,3 +253,15 @@ exports['parse rule with one structure'] = function (test) {
     
     test.equal(parser.parse('rule'), null);
 };
+
+exports['parse rule with two structures'] = function (test) {
+    const parser = parsers.parser('mortal(X) :- animal(X), greek(X)');
+    
+    const result = parser.parse('rule');
+    
+    test.ok(result);
+    
+    test.equal(result.asString(), 'mortal(X) :- animal(X), greek(X)');
+    
+    test.equal(parser.parse('rule'), null);
+};
