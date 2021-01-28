@@ -265,3 +265,15 @@ exports['parse rule with two structures'] = function (test) {
     
     test.equal(parser.parse('rule'), null);
 };
+
+exports['parse rule as fact'] = function (test) {
+    const parser = parsers.parser('mortal(X) :- animal(X), greek(X).');
+    
+    const result = parser.parse('fact');
+    
+    test.ok(result);
+    
+    test.equal(result.asString(), 'mortal(X) :- animal(X), greek(X)');
+    
+    test.equal(parser.parse('fact'), null);
+};
