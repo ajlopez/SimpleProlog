@@ -278,3 +278,11 @@ exports['rule structure as string'] = function (test) {
     test.equal(structure1.asString(), 'X :- Y, Z');
 }
 
+exports['query structure as string'] = function (test) {
+    const varx = variable('X');
+    const vary = variable('Y');
+    const varz = variable('Z');
+    const structure1 = structure(atom('?-'), varx, vary, varz);
+    
+    test.equal(structure1.asString(), '?- X, Y, Z');
+}
