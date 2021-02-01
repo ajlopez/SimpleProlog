@@ -48,7 +48,7 @@ exports['query using a variable'] = function (test) {
 
 exports['parse atom'] = function (test) {
     const parser = sp.parser('a');
-    const result = parser.parse();
+    const result = parser.parse('atom');
     
     test.ok(result);
     test.equal(result.name(), 'a');
@@ -56,9 +56,9 @@ exports['parse atom'] = function (test) {
 	test.equal(parser.parse(), null);
 }
 
-exports['parse atom and point'] = function (test) {
+exports['parse atom as fact'] = function (test) {
     const parser = sp.parser('a.');
-    const result = parser.parse();
+    const result = parser.parse('fact');
     
     test.ok(result);
     test.equal(result.name(), 'a');
