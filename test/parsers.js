@@ -289,3 +289,15 @@ exports['parse query'] = function (test) {
     
     test.equal(parser.parse('query'), null);
 };
+
+exports['parse query as fact'] = function (test) {
+    const parser = parsers.parser('?- X, Y, Z.');
+    
+    const result = parser.parse('fact');
+    
+    test.ok(result);
+    
+    test.equal(result.asString(), '?- X, Y, Z');
+    
+    test.equal(parser.parse('fact'), null);
+};
