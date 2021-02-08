@@ -35,6 +35,7 @@ TBD
 ## References
 
 - Programming in Prolog, using the ISO standard, fifth edition, an updated classic by Clocksin and Mellish
+- [Warren's Abstract Machine](http://wambook.sourceforge.net/wambook.pdf)
 
 TBD
 
