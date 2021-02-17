@@ -2,6 +2,7 @@ const utils = require('../lib/utils');
 const variable = require('../lib/variable');
 const atom = require('../lib/atom');
 const structure = require('../lib/structure');
+const parsers = require('../lib/parsers');
 
 exports['variable is a variable'] = function (test) {
 	const var1 = variable('X');
@@ -55,5 +56,29 @@ exports['structure is an structure'] = function (test) {
 	const structure1 = structure(atom('a'), variable('X'));;
     
 	test.equal(utils.isStructure(structure1), true);
+};
+
+exports['parsed structure is query'] = function (test) {
+    const fact = parsers.parser('?- X, Y.').parse('fact');
+    
+    test.ok(utils.isStructure(fact));
+    test.ok(utils.isQuery(fact));
+};
+
+exports['parsed structure is not a query'] = function (test) {
+    const fact = parsers.parser('a(X) :- b(Y).').parse('fact');
+
+    test.ok(fact);
+    test.ok(utils.isStructure(fact));
+    test.ok(!utils.isQuery(fact));
+};
+
+exports['parsed atom is not a query'] = function (test) {
+    const fact = parsers.parser('a.').parse('fact');
+    
+    test.ok(fact);
+    test.ok(utils.isAtom(fact));
+    test.ok(!utils.isStructure(fact));
+    test.ok(!utils.isQuery(fact));
 };
 
