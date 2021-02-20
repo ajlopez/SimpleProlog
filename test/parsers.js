@@ -302,6 +302,24 @@ exports['parse rule as fact'] = function (test) {
     test.equal(parser.parse('fact'), null);
 };
 
+exports['parse rule and structure as facts'] = function (test) {
+    const parser = parsers.parser('mortal(X) :- greek(X). greek(socrates).');
+    
+    const result = parser.parse('fact');
+    
+    test.ok(result);
+    
+    test.equal(result.asString(), 'mortal(X) :- greek(X)');
+    
+    const result2 = parser.parse('fact');
+    
+    test.ok(result2);
+    
+    test.equal(result2.asString(), 'greek(socrates)');
+    
+    test.equal(parser.parse('fact'), null);
+};
+
 exports['parse query'] = function (test) {
     const parser = parsers.parser('?- X, Y, Z');
     
