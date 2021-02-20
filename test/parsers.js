@@ -242,6 +242,30 @@ exports['parse structure as fact'] = function (test) {
     test.equal(parser.parse('fact'), null);
 };
 
+exports['parse two structures as fact'] = function (test) {
+    const parser = parsers.parser('a(1). b(2).');
+    
+    const result = parser.parse('fact');
+    
+    test.ok(result);
+    test.ok(result.functor());
+    test.equal(result.functor().name(), 'a');
+    test.equal(result.arity(), 1);
+    
+    test.equal(result.asString(), 'a(1)');
+    
+    const result2 = parser.parse('fact');
+    
+    test.ok(result2);
+    test.ok(result2.functor());
+    test.equal(result2.functor().name(), 'b');
+    test.equal(result2.arity(), 1);
+    
+    test.equal(result2.asString(), 'b(2)');
+    
+    test.equal(parser.parse('fact'), null);
+};
+
 exports['parse rule with one structure'] = function (test) {
     const parser = parsers.parser('mortal(X) :- greek(X)');
     
